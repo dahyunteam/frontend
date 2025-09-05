@@ -67,7 +67,7 @@ export default function App() {
         </aside>
 
         {/* 오른쪽 메인 */}
-        <main className="w-full lg:ml-[360px] px-4 md:px-6 py-8">
+        <main className="w-full lg:ml-[180px] px-4 md:px-6 py-8">
           {/* 중앙 폭 제한: 큰 박스 없이 요소만 카드 */}
 
 
