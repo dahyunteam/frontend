@@ -16,30 +16,28 @@ export default function TeacherSignup() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    // mento 단계 진입 검증
     if (!base || (base.userType !== "mento" && base.userType !== "MENTO")) {
       nav("/signup", { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const canStart =
-    !!base && nick.trim() && univ.trim() && major.trim();
+  const canStart = !!base && nick.trim() && univ.trim() && major.trim();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!canStart || !base) return;
 
     const payload = {
-      userType: "MENTO",           // ✅ 백엔드 Enum과 일치(대문자)
+      userType: "MENTO",
       name: base.name,
-      account: base.account,       // ✅ account로 전송
+      account: base.account,
       password: base.password,
       nickname: nick.trim(),
       schoolName: univ.trim(),
       major: major.trim(),
-      openChatUrl: openchat.trim(), // 선택
-      description: about.trim(),    // 선택
+      openChatUrl: openchat.trim(),
+      description: about.trim(),
     };
 
     try {
@@ -55,8 +53,12 @@ export default function TeacherSignup() {
         return;
       }
 
+      // ✅ 성공시 저장
+      localStorage.setItem("nickname", nick.trim());
+      localStorage.setItem("userType", "univ");
+
       clearSignupBase();
-      nav("/teacher-home", { replace: true }); // 선생님 → TeacherHome
+      nav("/teacher-home", { replace: true });
     } catch (e2) {
       console.error(e2);
       setErr("서버 오류가 발생했습니다.");
