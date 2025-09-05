@@ -117,7 +117,6 @@ export default function Navbar() {
             />
           </div>
           <p className="font-semibold mt-2 text-lg">별명 가나다</p>
-          <p className="text-sm mt-1 text-slate-500">컴퓨터 공학과 추천</p>
 
           {/* 선택한 멘토 영역 */}
           <div className="w-full mt-12 flex justify-between items-center bg-white px-4 py-2 rounded-lg shadow-sm text-sm font-medium">
