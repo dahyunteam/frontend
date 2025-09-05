@@ -1,162 +1,165 @@
+// src/pages/SignupPage.jsx  (혹은 SignupChoice.jsx와 하나만 쓰면 됨)
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthShell from "./_AuthShell";
+import { saveSignupBase } from "../utils/signupStorage";
 
-const SignupPage = () => {
-  const [personToggle, setPersonToggle] = useState(null); // "highschool" | "university"
+export default function SignupPage() {
+  const nav = useNavigate();
+
+  // 사용자 구분: menti(고등학생) | mento(대학생)
+  const [userType, setUserType] = useState("menti");
   const [name, setName] = useState("");
-
-  // ✅ account로 통일
-  const [account, setAccount] = useState("");
-  const [accountValid, setAccountValid] = useState(null); // null | true | false
-  const [isAccountChecked, setIsAccountChecked] = useState(false);
-
+  const [account, setAccount] = useState("");   // ✅ email 대신 account로 통일
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pw2, setPw2] = useState("");
 
-  const navigate = useNavigate();
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
 
-  // 계정(이메일) 형식 체크
   const isAccountFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account);
-
-  // 중복 확인 (임시 로직)
-  const handleAccountCheck = () => {
-    if (!isAccountFormatValid) {
-      setAccountValid(false);
-      setIsAccountChecked(true);
-      return;
-    }
-    // 서버 중복 검사 가정
-    if (account === "test@example.com") {
-      setAccountValid(false);
-    } else {
-      setAccountValid(true);
-    }
-    setIsAccountChecked(true);
-  };
-
-  const handleSignup = () => {
-    if (personToggle === "university") {
-      navigate("/teachersignup");
-    } else if (personToggle === "highschool") {
-      navigate("/studentsignup");
-    }
-  };
-
-  // 회원가입 버튼 활성화 조건
-  const isFormValid =
-    personToggle &&
+  const canNext =
     name.trim() &&
     account.trim() &&
     isAccountFormatValid &&
-    isAccountChecked &&
-    accountValid &&
     password &&
-    confirmPassword &&
-    password === confirmPassword;
+    pw2 &&
+    password === pw2;
+
+  const goNext = (e) => {
+    e.preventDefault();
+    if (!canNext) return;
+
+    // 다음 스텝에서 사용할 기본 정보 저장
+    saveSignupBase({
+      userType,                        // "menti" | "mento"
+      name: name.trim(),
+      account: account.trim(),
+      password,
+    });
+
+    // 타입에 따라 다음 페이지로 이동
+    if (userType === "menti") nav("/studentsignup");
+    else nav("/teachersignup");
+  };
 
   return (
-    <div className="flex h-screen w-screen">
-      {/* 오른쪽 영역 */}
-      <div className="w-1/2 relative flex flex-col items-center justify-center bg-white mx-auto">
-        <div className="flex flex-col space-y-4 w-2/3">
-          {/* 고등학생/대학생 선택 */}
-          <div className="flex flex-row space-x-2">
-            <button
-              className={`flex-1 px-2 py-1 cursor-pointer text-sm rounded-lg border ${
-                personToggle === "highschool"
-                  ? "bg-[#1aa752] text-white"
-                  : "bg-gray-100 text-gray-600"
-              }`}
-              onClick={() => setPersonToggle("highschool")}
-            >
-              고등학생
-            </button>
-            <button
-              className={`flex-1 px-2 py-1 cursor-pointer text-sm rounded-lg border ${
-                personToggle === "university"
-                  ? "bg-[#1aa752] text-white"
-                  : "bg-gray-100 text-gray-600"
-              }`}
-              onClick={() => setPersonToggle("university")}
-            >
-              대학생
-            </button>
-          </div>
+    <AuthShell>
+      <h2 className="text-[22px] font-semibold mb-8">회원가입</h2>
 
-          {/* 이름 */}
-          <span>이름</span>
+      {/* 사용자 종류 */}
+      <div className="mb-2 text-[12px] text-[#3152B7] font-semibold">사용자 종류</div>
+      <div className="mb-6 flex gap-3">
+        <button
+          type="button"
+          onClick={() => setUserType("menti")}
+          className={`h-10 rounded-md px-4 text-sm border ${
+            userType === "menti"
+              ? "bg-white text-[#111] border-[#3152B7]"
+              : "bg-white text-[#6B7280] border-[#E5E7EB]"
+          }`}
+        >
+          고등학생
+        </button>
+        <button
+          type="button"
+          onClick={() => setUserType("mento")}
+          className={`h-10 rounded-md px-4 text-sm border ${
+            userType === "mento"
+              ? "bg-white text-[#111] border-[#3152B7]"
+              : "bg-white text-[#6B7280] border-[#E5E7EB]"
+          }`}
+        >
+          대학생
+        </button>
+      </div>
+
+      <form onSubmit={goNext} className="space-y-5">
+        {/* 이름 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">이름</label>
           <input
-            className="border px-2 py-1"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="이름"
           />
+        </div>
 
-          {/* 아이디(account) */}
-          <span>아이디</span>
-          <div className="flex space-x-2">
+        {/* 아이디(이메일) -> account */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">아이디(이메일)</label>
+          <input
+            type="email"
+            value={account}
+            onChange={(e) => setAccount(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="example@domain.com"
+          />
+          {account && !isAccountFormatValid && (
+            <p className="mt-1 text-xs text-red-600">올바른 이메일 형식이 아닙니다.</p>
+          )}
+        </div>
+
+        {/* 비밀번호 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">비밀번호</label>
+          <div className="relative">
             <input
-              className="border flex-1 px-2 py-1"
-              value={account}
-              onChange={(e) => {
-                setAccount(e.target.value);
-                setIsAccountChecked(false); // 새 입력 → 다시 체크 필요
-                setAccountValid(null);
-              }}
+              type={show1 ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 pr-10 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+              placeholder="비밀번호"
             />
             <button
               type="button"
-              className="px-2 py-1 bg-blue-500 text-white rounded"
-              onClick={handleAccountCheck}
+              onClick={() => setShow1((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]"
+              aria-label="비밀번호 보기"
             >
-              중복 확인
+              {show1 ? "🙈" : "👁️"}
             </button>
           </div>
-
-          {/* 중복 확인 결과 */}
-          {isAccountChecked && (
-            <span
-              className={`text-sm ${
-                accountValid ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {accountValid ? "사용 가능" : "사용 불가능"}
-            </span>
-          )}
-
-          {/* 비밀번호 */}
-          <span>비밀번호</span>
-          <input
-            type="password"
-            className="border px-2 py-1"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {/* 비밀번호 확인 */}
-          <span>비밀번호 확인</span>
-          <input
-            type="password"
-            className="border px-2 py-1"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-
-          {/* 회원가입 버튼 */}
-          <button
-            onClick={handleSignup}
-            disabled={!isFormValid}
-            className={`px-4 py-2 rounded ${
-              isFormValid
-                ? "bg-green-600 text-white hover:bg-green-700"
-                : "bg-gray-400 cursor-not-allowed"
-            }`}
-          >
-            회원가입하기
-          </button>
         </div>
-      </div>
-    </div>
-  );
-};
 
-export default SignupPage;
+        {/* 비밀번호 확인 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">비밀번호 확인</label>
+          <div className="relative">
+            <input
+              type={show2 ? "text" : "password"}
+              value={pw2}
+              onChange={(e) => setPw2(e.target.value)}
+              className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 pr-10 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+              placeholder="비밀번호 확인"
+            />
+            <button
+              type="button"
+              onClick={() => setShow2((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]"
+              aria-label="비밀번호 보기"
+            >
+              {show2 ? "🙈" : "👁️"}
+            </button>
+          </div>
+          {pw2 && pw2 !== password && (
+            <p className="mt-1 text-xs text-red-600">비밀번호가 일치하지 않습니다.</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={!canNext}
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium ${
+            canNext
+              ? "bg-[#1aa752] text-white hover:bg-[#16924a]"
+              : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+          }`}
+        >
+          다음
+        </button>
+      </form>
+    </AuthShell>
+  );
+}

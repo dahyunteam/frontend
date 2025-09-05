@@ -1,3 +1,4 @@
+// src/pages/StudentSignup.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthShell from "./_AuthShell";
@@ -11,7 +12,7 @@ export default function StudentSignup() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    // 백엔드가 기대하는 타입은 MENTI/MENTO. base 검사만 하고 아니면 되돌림.
+    // 학생 단계 진입 검증
     if (!base || (base.userType !== "menti" && base.userType !== "MENTI")) {
       nav("/signup", { replace: true });
     }
@@ -29,12 +30,12 @@ export default function StudentSignup() {
     if (!canStart || !base) return;
 
     const payload = {
-      userType: "MENTI",          // ✅ 대문자 (백엔드 Enum과 일치)
+      userType: "MENTI",          // 백엔드 Enum과 일치(대문자)
       name: base.name,
-      account: base.account,      // ✅ account로 전송
+      account: base.account,      // account로 전송
       password: base.password,
       nickname: nick.trim(),
-      age: ageNum,                // ✅ 숫자로 전송
+      age: ageNum,                // 숫자
     };
 
     try {
@@ -51,7 +52,7 @@ export default function StudentSignup() {
       }
 
       clearSignupBase();
-      nav("/home", { replace: true });
+      nav("/home", { replace: true }); // 학생 → Home
     } catch (e2) {
       console.error(e2);
       setErr("서버 오류가 발생했습니다.");
@@ -70,10 +71,9 @@ export default function StudentSignup() {
       </div>
 
       <form className="space-y-5" onSubmit={onSubmit}>
+        {/* 별명 */}
         <div>
-          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">
-            별명
-          </label>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">별명</label>
           <input
             className="h-12 w-full rounded-md border px-4"
             value={nick}
@@ -82,16 +82,13 @@ export default function StudentSignup() {
           />
         </div>
 
+        {/* 나이 */}
         <div>
-          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">
-            나이
-          </label>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">나이</label>
           <input
             className="h-12 w-full rounded-md border px-4"
             value={age}
-            onChange={(e) =>
-              setAge(e.target.value.replace(/[^\d]/g, "")) // 숫자만
-            }
+            onChange={(e) => setAge(e.target.value.replace(/[^\d]/g, ""))} // 숫자만
             inputMode="numeric"
             placeholder="나이(숫자)"
           />

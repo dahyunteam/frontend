@@ -8,7 +8,7 @@ export default function AuthShell({ children }) {
       <div className="w-1/2 bg-[#F3F6FD] flex flex-col items-center justify-center">
         {/* 로고 이미지 */}
         <img
-          src="/icon/logo.png" // 👉 public 폴더 기준 경로. /public/icon/메인로고.png 넣어줘
+          src="/icon/logo.png" // 👉 public/icon/logo.png 파일 준비
           alt="서비스 로고"
           className="h-40 w-auto mb-6" // 크기 조절 (h-40은 높이 약 160px)
         />

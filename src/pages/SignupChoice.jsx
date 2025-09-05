@@ -1,76 +1,161 @@
+// src/pages/SignupChoice.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthShell from "./_AuthShell";
 import { saveSignupBase } from "../utils/signupStorage";
 
 export default function SignupChoice() {
   const nav = useNavigate();
-  const [userType, setUserType] = useState("menti"); // menti | mento
+
+  // 사용자 타입: menti(고등학생) | mento(대학생)
+  const [userType, setUserType] = useState("menti");
   const [name, setName] = useState("");
-  const [account, setAccount] = useState(""); // email
+  const [account, setAccount] = useState("");   // ✅ email 대신 account로 통일
   const [password, setPassword] = useState("");
   const [pw2, setPw2] = useState("");
-  const canNext = name.trim() && account.trim() && password && pw2 && password === pw2;
+
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+
+  const isAccountFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account);
+  const canNext =
+    name.trim() &&
+    account.trim() &&
+    isAccountFormatValid &&
+    password &&
+    pw2 &&
+    password === pw2;
 
   const goNext = (e) => {
     e.preventDefault();
     if (!canNext) return;
-    saveSignupBase({ userType, name, account, password });
+
+    // 다음 스텝에서 사용할 기본 정보 저장
+    saveSignupBase({ userType, name: name.trim(), account: account.trim(), password });
+
+    // 타입에 따라 다음 페이지로
     if (userType === "menti") nav("/studentsignup");
     else nav("/teachersignup");
   };
 
   return (
-    <div className="flex h-screen w-screen">
-      <div className="w-1/2 bg-[#F3F6FD] flex flex-col items-center justify-center">
-        {/* 로고 이미지 */}
-        <img
-          src="/icon/logo.png" // 👉 public 폴더 기준 경로. /public/icon/메인로고.png 넣어줘
-          alt="서비스 로고"
-          className="h-40 w-auto mb-6" // 크기 조절 (h-40은 높이 약 160px)
-        />
-        {/* 서비스 이름 */}
-        <h1 className="text-3xl font-semibold tracking-tight">FOCAS</h1>
-        <p className="mt-4 text-sm text-center text-gray-600 max-w-xs leading-6">
-          흥미와 성향 기반으로 딱 맞는 진로를 추천받고,  
-          대학생 멘토에게 바로 질문하며 미래를 준비할 수 있는 플랫폼
-        </p>
-      </div>
-      <div className="w-1/2 flex items-center justify-center">
-        <form className="w-[480px] space-y-4" onSubmit={goNext}>
-          <h2 className="text-xl font-semibold mb-4">회원가입</h2>
+    <AuthShell>
+      <h2 className="text-[22px] font-semibold mb-8">회원가입</h2>
 
-          {/* 사용자 유형 */}
-          <div className="flex gap-2">
+      {/* 사용자 종류 */}
+      <div className="mb-2 text-[12px] text-[#3152B7] font-semibold">사용자 종류</div>
+      <div className="mb-6 flex gap-3">
+        <button
+          type="button"
+          onClick={() => setUserType("menti")}
+          className={`h-10 rounded-md px-4 text-sm border ${
+            userType === "menti"
+              ? "bg-white text-[#111] border-[#3152B7]"
+              : "bg-white text-[#6B7280] border-[#E5E7EB]"
+          }`}
+        >
+          고등학생
+        </button>
+        <button
+          type="button"
+          onClick={() => setUserType("mento")}
+          className={`h-10 rounded-md px-4 text-sm border ${
+            userType === "mento"
+              ? "bg-white text-[#111] border-[#3152B7]"
+              : "bg-white text-[#6B7280] border-[#E5E7EB]"
+          }`}
+        >
+          대학생
+        </button>
+      </div>
+
+      <form onSubmit={goNext} className="space-y-5">
+        {/* 이름 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">이름</label>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="이름"
+          />
+        </div>
+
+        {/* 아이디(이메일) -> account */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">아이디(이메일)</label>
+          <input
+            type="email"
+            value={account}
+            onChange={(e) => setAccount(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="example@domain.com"
+          />
+          {account && !isAccountFormatValid && (
+            <p className="mt-1 text-xs text-red-600">올바른 이메일 형식이 아닙니다.</p>
+          )}
+        </div>
+
+        {/* 비밀번호 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">비밀번호</label>
+          <div className="relative">
+            <input
+              type={show1 ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 pr-10 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+              placeholder="비밀번호"
+            />
             <button
               type="button"
-              className={`flex-1 h-9 rounded border ${userType === "menti" ? "bg-[#3152B7] text-white" : "bg-white"}`}
-              onClick={() => setUserType("menti")}
+              onClick={() => setShow1((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]"
+              aria-label="비밀번호 보기"
             >
-              고등학생
-            </button>
-            <button
-              type="button"
-              className={`flex-1 h-9 rounded border ${userType === "mento" ? "bg-[#3152B7] text-white" : "bg-white"}`}
-              onClick={() => setUserType("mento")}
-            >
-              대학생
+              {show1 ? "🙈" : "👁️"}
             </button>
           </div>
+        </div>
 
-          <input className="h-12 w-full rounded border px-4" placeholder="이름" value={name} onChange={(e)=>setName(e.target.value)} />
-          <input className="h-12 w-full rounded border px-4" placeholder="이메일" value={account} onChange={(e)=>setAccount(e.target.value)} />
-          <input className="h-12 w-full rounded border px-4" type="password" placeholder="비밀번호" value={password} onChange={(e)=>setPassword(e.target.value)} />
-          <input className="h-12 w-full rounded border px-4" type="password" placeholder="비밀번호 확인" value={pw2} onChange={(e)=>setPw2(e.target.value)} />
+        {/* 비밀번호 확인 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">비밀번호 확인</label>
+          <div className="relative">
+            <input
+              type={show2 ? "text" : "password"}
+              value={pw2}
+              onChange={(e) => setPw2(e.target.value)}
+              className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 pr-10 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+              placeholder="비밀번호 확인"
+            />
+            <button
+              type="button"
+              onClick={() => setShow2((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]"
+              aria-label="비밀번호 보기"
+            >
+              {show2 ? "🙈" : "👁️"}
+            </button>
+          </div>
+          {pw2 && pw2 !== password && (
+            <p className="mt-1 text-xs text-red-600">비밀번호가 일치하지 않습니다.</p>
+          )}
+        </div>
 
-          <button
-            type="submit"
-            disabled={!canNext}
-            className={`h-12 w-full rounded text-white ${canNext ? "bg-[#3152B7]" : "bg-[#E5E7EB] cursor-not-allowed"}`}
-          >
-            다음
-          </button>
-        </form>
-      </div>
-    </div>
+        <button
+          type="submit"
+          disabled={!canNext}
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium transition
+          ${
+            canNext
+              ? "bg-[#3152B7] text-white hover:bg-[#2643a0]"
+              : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+          }`}
+        >
+          다음
+        </button>
+      </form>
+    </AuthShell>
   );
 }
