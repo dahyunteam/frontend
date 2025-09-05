@@ -23,15 +23,14 @@ const MyStudents = () => {
           />
         </div>
         <div>
-          <p className="font-semibold">별명별명</p>
-          <p className="text-sm text-gray-500">무슨대학교 무슨과</p>
+          <p className="font-semibold">발명왕</p>
         </div>
       </div>
 
       <hr className="border-gray-300 mb-6" />
 
       {/* 내 학생 영역 */}
-      <h2 className="font-semibold mb-4">내 학생</h2>
+      <h2 className="font-semibold mb-4">선택한 멘토</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {students.map((s, idx) => (
           <PersonCard key={idx} person={s} />

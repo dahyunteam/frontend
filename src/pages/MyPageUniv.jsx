@@ -23,14 +23,14 @@ const MyStudents = () => {
           />
         </div>
         <div>
-          <p className="font-semibold">별명별명</p>
-          <p className="text-sm text-gray-500">무슨대학교 무슨과</p>
+          <p className="font-semibold">설명왕</p>
+          <p className="text-sm text-gray-500">연세대학교 컴퓨터공학과</p>
         </div>
       </div>
 
       {/* 자기소개 영역 */}
       <div className="bg-white rounded-lg p-4 h-30 mb-6">
-        안녕하세요~~! 친절하게 알려드릴게
+        안녕하세요~~! 친절하게 알려드릴게요
       </div>
 
       <hr className="border-gray-300 mb-6" />
