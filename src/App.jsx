@@ -1,38 +1,26 @@
 // src/App.jsx
-
 import React, { Suspense, lazy, useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 
-// 페이지들 lazy 로드
+// ── Lazy pages (코드 스플리팅)
 const Home = lazy(() => import("./pages/Home"));
 const Question = lazy(() => import("./pages/Question"));
 const MentorList = lazy(() => import("./pages/MentorList"));
 const SelectedMentors = lazy(() => import("./pages/SelectedMentors"));
 const ChatPage = lazy(() => import("./pages/ChatPage"));
 
-// 로그인/회원가입 (풀스크린)
 const LoginChoice = lazy(() => import("./pages/LoginChoice"));
 const LoginStudent = lazy(() => import("./pages/LoginStudent"));
 const LoginTeacher = lazy(() => import("./pages/LoginTeacher"));
 const SignupChoice = lazy(() => import("./pages/SignupChoice"));
 const StudentSignup = lazy(() => import("./pages/StudentSignup"));
 const TeacherSignup = lazy(() => import("./pages/TeacherSignup"));
-
-// 회원가입 (풀스크린 유지 권장)
-
-import MyPageStud from "./Pages/MyPageStud";
-import MyPageUniv from "./pages/MyPageUniv";
-
-// 선생님 홈
 const TeacherHome = lazy(() => import("./pages/TeacherHome"));
+
+const MyPageStud = lazy(() => import("./pages/MyPageStud"));
+const MyPageUniv = lazy(() => import("./pages/MyPageUniv"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -56,6 +44,9 @@ export default function App() {
       <ScrollToTop />
       <Suspense fallback={<Fallback />}>
         <Routes>
+          {/* 최초 진입은 로그인 선택으로 */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
           {/* 풀스크린 (Navbar 없음) */}
           <Route path="/login" element={<LoginChoice />} />
           <Route path="/login/student" element={<LoginStudent />} />
@@ -68,31 +59,17 @@ export default function App() {
 
           {/* 레이아웃 (Navbar 포함) */}
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route
-              caseSensitive={false}
-              path="/question"
-              element={<Question />}
-            />
-            <Route
-              caseSensitive={false}
-              path="/mentor-list"
-              element={<MentorList />}
-            />
-            <Route
-              caseSensitive={false}
-              path="/my-mentors"
-              element={<SelectedMentors />}
-            />
+            <Route path="/question" element={<Question />} />
+            <Route path="/mentor-list" element={<MentorList />} />
+            <Route path="/my-mentors" element={<SelectedMentors />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/mypagestud" element={<MyPageStud />} />
             <Route path="/mypageuniv" element={<MyPageUniv />} />
-            {/* 필요 시: <Route path="/me" element={<Profile />} /> */}
           </Route>
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -1,44 +1,84 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";   // ⬅ 추가
+// src/pages/StudentSignup.jsx
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthShell from "./_AuthShell";
+import { loadSignupBase, clearSignupBase } from "../utils/signupStorage";
 
 export default function StudentSignup() {
+  const nav = useNavigate();
+  const base = loadSignupBase(); // { userType, name, account, password }
   const [nick, setNick] = useState("");
   const [age, setAge] = useState("");
+  const [err, setErr] = useState("");
 
-  const canStart = nick.trim() && age.trim();
+  useEffect(() => {
+    // 학생 단계 진입 검증
+    if (!base || (base.userType !== "menti" && base.userType !== "MENTI")) {
+      nav("/signup", { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const nav = useNavigate();                      // ⬅ 추가
+  // 숫자 나이 검증
+  const ageNum = Number(age.trim());
+  const isAgeValid = Number.isInteger(ageNum) && ageNum > 0 && ageNum < 120;
 
-  const handleStart = (e) => {
+  const canStart = !!base && nick.trim().length > 0 && isAgeValid;
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (!canStart) return;
+    if (!canStart || !base) return;
 
-    // TODO: 백엔드 API 연동 후 성공 시 이동
-    nav("/home", { replace: true });              // ⬅ Home으로 이동
+    const payload = {
+      userType: "MENTI",          // 백엔드 Enum과 일치(대문자)
+      name: base.name,
+      account: base.account,      // account로 전송
+      password: base.password,
+      nickname: nick.trim(),
+      age: ageNum,                // 숫자
+    };
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        setErr(`회원가입 실패: ${t}`);
+        return;
+      }
+
+      clearSignupBase();
+      nav("/home", { replace: true }); // 학생 → Home
+    } catch (e2) {
+      console.error(e2);
+      setErr("서버 오류가 발생했습니다.");
+    }
   };
 
   return (
     <AuthShell>
       <div className="mb-8">
         <h3 className="text-[22px] font-semibold leading-7">
-          고다현님
-          <br />반갑습니다!
+          {base?.name ?? ""}님<br />반갑습니다!
         </h3>
         <p className="mt-2 text-sm text-[#6B7280]">
-          우리 사이트는 별명으로 운영되고 있습니다.
+          우리 사이트는 별명으로 운영되고 익명 중심의 사이트입니다.
         </p>
       </div>
 
-      <form onSubmit={handleStart} className="space-y-5">
+      <form className="space-y-5" onSubmit={onSubmit}>
         {/* 별명 */}
         <div>
           <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">별명</label>
           <input
+            className="h-12 w-full rounded-md border px-4"
             value={nick}
             onChange={(e) => setNick(e.target.value)}
-            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
-            placeholder="이름"
+            placeholder="별명"
           />
         </div>
 
@@ -46,22 +86,27 @@ export default function StudentSignup() {
         <div>
           <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">나이</label>
           <input
+            className="h-12 w-full rounded-md border px-4"
             value={age}
-            onChange={(e) => setAge(e.target.value)}
-            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
-            placeholder="나이"
+            onChange={(e) => setAge(e.target.value.replace(/[^\d]/g, ""))} // 숫자만
+            inputMode="numeric"
+            placeholder="나이(숫자)"
           />
+          {!isAgeValid && age.trim() !== "" && (
+            <p className="mt-1 text-xs text-red-600">유효한 나이를 입력하세요.</p>
+          )}
         </div>
 
+        {err && <p className="text-sm text-red-600">{err}</p>}
+
         <button
-          type="submit"                            // ⬅ submit 으로 처리
+          type="submit"
           disabled={!canStart}
-          className={`mt-4 h-12 w-full rounded-md text-sm font-medium transition
-            ${
-              canStart
-                ? "bg-[#3152B7] text-white hover:bg-[#2643a0]"
-                : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
-            }`}
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium ${
+            canStart
+              ? "bg-[#3152B7] text-white"
+              : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+          }`}
         >
           시작하기
         </button>

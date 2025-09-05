@@ -1,13 +1,13 @@
-// src/pages/SignupChoice.jsx
+// src/pages/SignupPage.jsx  (혹은 SignupChoice.jsx와 하나만 쓰면 됨)
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthShell from "./_AuthShell";
 import { saveSignupBase } from "../utils/signupStorage";
 
-export default function SignupChoice() {
+export default function SignupPage() {
   const nav = useNavigate();
 
-  // 사용자 타입: menti(고등학생) | mento(대학생)
+  // 사용자 구분: menti(고등학생) | mento(대학생)
   const [userType, setUserType] = useState("menti");
   const [name, setName] = useState("");
   const [account, setAccount] = useState("");   // ✅ email 대신 account로 통일
@@ -31,9 +31,14 @@ export default function SignupChoice() {
     if (!canNext) return;
 
     // 다음 스텝에서 사용할 기본 정보 저장
-    saveSignupBase({ userType, name: name.trim(), account: account.trim(), password });
+    saveSignupBase({
+      userType,                        // "menti" | "mento"
+      name: name.trim(),
+      account: account.trim(),
+      password,
+    });
 
-    // 타입에 따라 다음 페이지로
+    // 타입에 따라 다음 페이지로 이동
     if (userType === "menti") nav("/studentsignup");
     else nav("/teachersignup");
   };
@@ -146,10 +151,9 @@ export default function SignupChoice() {
         <button
           type="submit"
           disabled={!canNext}
-          className={`mt-4 h-12 w-full rounded-md text-sm font-medium transition
-          ${
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium ${
             canNext
-              ? "bg-[#3152B7] text-white hover:bg-[#2643a0]"
+              ? "bg-[#1aa752] text-white hover:bg-[#16924a]"
               : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
           }`}
         >

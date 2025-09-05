@@ -1,11 +1,8 @@
-import profile from "../assets/profile.svg";
-import { useNavigate } from "react-router-dom";
-import Logo from "../assets/Logo.png";
-
+// src/components/Navbar.jsx
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-
-const LOGO_SRC = "/icon/메인로고.png";
+import { NavLink, useNavigate } from "react-router-dom";
+import profile from "../assets/profile.svg";
+import Logo from "../assets/Logo.png";
 
 const linkBase = "text-slate-500 hover:text-slate-900 transition";
 const linkActive = "text-slate-900 font-medium";
@@ -14,21 +11,16 @@ export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleProfileClick = () => {
-    // localStorage에서 회원 유형 가져오기
-    const userType = localStorage.getItem("userType"); // "univ" 또는 "stud"
+  const handleLogoClick = () => navigate("/home");
 
-    if (userType === "univ") {
-      navigate("/mypageuniv");
-    } else if (userType === "stud") {
-      navigate("/mypagestud");
-    } else {
-      navigate("/"); // 혹시 정보가 없으면 홈으로
-    }
+  const handleProfileClick = () => {
+    const userType = localStorage.getItem("userType"); // "univ" | "stud"
+    if (userType === "univ") navigate("/mypageuniv");
+    else if (userType === "stud") navigate("/mypagestud");
+    else navigate("/home");
   };
 
   return (
-
     <>
       <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
         <div className="px-4 md:px-6">
@@ -38,50 +30,39 @@ export default function Navbar() {
                 src={Logo}
                 alt="서비스 로고"
                 className="w-[102px] h-[30px] object-contain select-none cursor-pointer"
-                onClick={() => {
-                  navigate("./");
-                }}
+                onClick={handleLogoClick}
               />
 
-              {/* 라우팅은 NavLink/Link + 절대경로 사용 */}
+              {/* 라우팅은 절대경로 사용 */}
               <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `${linkBase} ${isActive ? linkActive : ""}`
-                }
+                to="/home"
+                className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
                 end
               >
                 홈
               </NavLink>
-
               <NavLink
                 to="/mentor-list"
-                className={({ isActive }) =>
-                  `${linkBase} ${isActive ? linkActive : ""}`
-                }
+                className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
               >
                 멘토 리스트
               </NavLink>
-
               <NavLink
                 to="/chat"
-                className={({ isActive }) =>
-                  `${linkBase} ${isActive ? linkActive : ""}`
-                }
+                className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
               >
                 채팅
               </NavLink>
             </nav>
 
             <div className="flex items-center gap-5 text-sm">
-              <NavLink
-                to="/me"
-                className={({ isActive }) =>
-                  `${linkBase} ${isActive ? linkActive : ""}`
-                }
+              <button
+                onClick={handleProfileClick}
+                className={`${linkBase}`}
+                aria-label="내 프로필로 이동"
               >
                 내 프로필
-              </NavLink>
+              </button>
               <button aria-label="menu" onClick={() => setSidebarOpen(true)}>
                 <svg
                   viewBox="0 0 24 24"
@@ -97,6 +78,7 @@ export default function Navbar() {
           </div>
         </div>
       </header>
+
       {/* 오른쪽 사이드바 */}
       <div
         className={`fixed top-14 bottom-0 right-0 w-[404px] bg-gray-100 shadow-lg z-50 rounded-bl-[24px] rounded-tl-[24px] transition-opacity duration-300 overflow-y-auto ${
@@ -107,6 +89,7 @@ export default function Navbar() {
         <button
           className="absolute top-4 left-4 text-xl font-bold"
           onClick={() => setSidebarOpen(false)}
+          aria-label="사이드바 닫기"
         >
           &gt;
         </button>
@@ -122,13 +105,13 @@ export default function Navbar() {
           </div>
           <p className="font-semibold mt-2 text-lg">별명 가나다</p>
 
-          {/* 선택한 멘토 영역 */}
+          {/* 선택한 멘토 요약 */}
           <div className="w-full mt-12 flex justify-between items-center bg-white px-4 py-2 rounded-lg shadow-sm text-sm font-medium">
             <span>선택한 멘토</span>
             <span>4</span>
           </div>
 
-          {/* 멘토 리스트 */}
+          {/* 멘토 리스트 (샘플) */}
           <div className="w-full mt-6 flex flex-col gap-0">
             {Array.from({ length: 4 }).map((_, i) => (
               <div

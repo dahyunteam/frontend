@@ -2,43 +2,67 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginTeacher() {
-  const navigate = useNavigate();
+  const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
 
-  const canSubmit = email.trim() !== "" && pw.trim() !== "";
+  const canSubmit = email.trim() && pw.trim();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!canSubmit) return;
-    // TODO: 실제 로그인 API 연동
-    navigate("/teacher-home"); // 선생님은 여기로 이동
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account: email, password: pw }),
+      });
+
+      if (!res.ok) {
+        setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+        return;
+      }
+
+      const data = await res.json();
+      // localStorage.setItem("token", data.token);
+      nav("/teacher-home", { replace: true }); // 선생님 → TeacherHome
+    } catch (err) {
+      console.error(err);
+      setError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    }
   };
 
   return (
     <div className="flex h-screen w-screen">
-      {/* Left */}
-      <div className="w-1/2 bg-[#F3F6FD] flex items-center justify-center">
-        <h1 className="text-6xl font-semibold tracking-tight">커비티아이</h1>
+      <div className="w-1/2 bg-[#F3F6FD] flex flex-col items-center justify-center">
+        {/* 로고 이미지 */}
+        <img
+          src="/icon/logo.png" // 👉 public 폴더 기준 경로. /public/icon/메인로고.png 넣어줘
+          alt="서비스 로고"
+          className="h-40 w-auto mb-6" // 크기 조절 (h-40은 높이 약 160px)
+        />
+        {/* 서비스 이름 */}
+        <h1 className="text-3xl font-semibold tracking-tight">FOCAS</h1>
+        <p className="mt-4 text-sm text-center text-gray-600 max-w-xs leading-6">
+          흥미와 성향 기반으로 딱 맞는 진로를 추천받고,  
+          대학생 멘토에게 바로 질문하며 미래를 준비할 수 있는 플랫폼
+        </p>
       </div>
-
-      {/* Right */}
       <div className="w-1/2 relative flex flex-col items-center justify-center bg-white">
-        {/* Top-right actions */}
         <div className="absolute top-10 right-12 flex gap-10 text-sm text-[#111827]">
           <button className="hover:opacity-70">문의하기</button>
-          <button onClick={() => navigate("/signup")} className="hover:opacity-70">
+          <button onClick={() => nav("/signup")} className="hover:opacity-70">
             회원가입하기
           </button>
         </div>
 
-        {/* Title */}
         <p className="text-sm mb-8">
           <span className="text-[#0E2B8F] font-semibold">선생님</span>으로 로그인
         </p>
 
-        {/* Form */}
         <form onSubmit={onSubmit} className="w-[480px] flex flex-col gap-4" autoComplete="off">
           <input
             type="email"
@@ -47,7 +71,6 @@ export default function LoginTeacher() {
             onChange={(e) => setEmail(e.target.value)}
             className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
           />
-
           <div className="relative">
             <input
               type={show ? "text" : "password"}
@@ -58,7 +81,6 @@ export default function LoginTeacher() {
             />
             <button
               type="button"
-              aria-label="비밀번호 보기"
               onClick={() => setShow((v) => !v)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#6B7280]"
             >
@@ -66,13 +88,16 @@ export default function LoginTeacher() {
             </button>
           </div>
 
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           <button
             type="submit"
             disabled={!canSubmit}
-            className={`h-12 rounded-md text-sm font-medium transition
-              ${canSubmit
+            className={`h-12 rounded-md text-sm font-medium transition ${
+              canSubmit
                 ? "bg-[#3152B7] text-white hover:bg-[#2643a0]"
-                : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"}`}
+                : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+            }`}
           >
             로그인
           </button>
