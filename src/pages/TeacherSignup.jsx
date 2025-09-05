@@ -1,116 +1,108 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";   // ⬅ 추가
+import AuthShell from "./_AuthShell";
 
-export default function TeacherSignupPage() {
-  const [form, setForm] = useState({
-    nickname: "",
-    university: "",
-    major: "",
-    intro: "",
-    chat: "",
-  });
+export default function TeacherSignup() {
+  const [nick, setNick] = useState("");
+  const [univ, setUniv] = useState("");
+  const [major, setMajor] = useState("");
+  const [about, setAbout] = useState("");
+  const [openchat, setOpenchat] = useState("");
 
-  // 모든 값이 채워졌는지 확인
-  const isFormComplete = Object.values(form).every((v) => v.trim() !== "");
+  const canStart = nick.trim() && univ.trim() && major.trim();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+  const nav = useNavigate();                      // ⬅ 추가
+
+  // 제출 핸들러 (백엔드 연동 후 성공 시 이동)
+  const handleStart = async (e) => {
+    e.preventDefault();
+
+    // TODO: await fetch('/api/signup/teacher', { method:'POST', body: ... })
+    // 성공했다고 가정하고 이동
+    nav("/teacher-home", { replace: true });
   };
 
   return (
-    <div className="flex w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
-      {/* 왼쪽 영역 */}
-      <div className="w-1/2 bg-gray-50 flex items-center justify-center">
-        <h1 className="text-3xl font-bold">커비티아이</h1>
+    <AuthShell>
+      <div className="mb-8">
+        <h3 className="text-[22px] font-semibold leading-7">
+          고다현님,
+          <br />반갑습니다!
+        </h3>
+        <p className="mt-2 text-sm text-[#6B7280]">
+          우리 사이트는 별명으로 운영되고 있습니다.
+        </p>
       </div>
 
-      {/* 오른쪽 영역 */}
-      <div className="w-1/2 flex flex-col justify-center px-20 space-y-6">
-        {/* 인사말 */}
+      {/* form 으로 감싸서 Enter 입력도 처리 */}
+      <form onSubmit={handleStart} className="space-y-5">
+        {/* 별명 */}
         <div>
-          <h1 className="text-2xl font-bold">고다현님, <br/>반갑습니다!</h1>
-          <p className="text-gray-500 text-sm mt-2">
-            우리 사이트는 별명으로 운영되며 익명 중심의 사이트입니다.
-          </p>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">별명</label>
+          <input
+            value={nick}
+            onChange={(e) => setNick(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="별명"
+          />
         </div>
 
-        {/* 입력 폼 */}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-[#00207F] text-[14px] mb-1">별명</label>
-            <input
-              type="text"
-              placeholder="별명"
-              name="nickname"
-              value={form.nickname}
-              onChange={handleChange}
-              className="w-full h-[54px] items-start p-4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#00207F] text-[14px] mb-1">대학교</label>
-            <input
-              type="text"
-              name="university"
-              value={form.university}
-              onChange={handleChange}
-              placeholder="대학교"
-              className="w-full h-[54px] items-start p-4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#00207F] text-[14px] mb-1">학과</label>
-            <input
-              type="text"
-              name="major"
-              value={form.major}
-              onChange={handleChange}
-              placeholder="학과"
-              className="w-full h-[54px] items-start p-4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#00207F] text-[14px] mb-1">한줄 소개</label>
-            <input
-              type="text"
-              name="intro"
-              value={form.intro}
-              onChange={handleChange}
-              placeholder="소개"
-              className="w-full h-[54px] items-start p-4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#00207F] text-[14px] mb-1">
-              오픈 채팅방 <span className="text-xs text-[#00207F] text-[14px]">(학생과의 소통 목적)</span>
-            </label>
-            <input
-              type="text"
-              name="chat"
-              value={form.chat}
-              onChange={handleChange}
-              placeholder="링크"
-              className="w-full h-[54px] items-start p-4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+        {/* 대학교 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">대학교</label>
+          <input
+            value={univ}
+            onChange={(e) => setUniv(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="대학교"
+          />
         </div>
 
-        {/* 버튼 */}
+        {/* 학과 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">학과</label>
+          <input
+            value={major}
+            onChange={(e) => setMajor(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="학과"
+          />
+        </div>
+
+        {/* 한줄 소개 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">한줄 소개</label>
+          <input
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="소개"
+          />
+        </div>
+
+        {/* 오픈 채팅방 */}
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">
+            오픈 채팅방 ( 학생과의 소통 목적 )
+          </label>
+          <input
+            value={openchat}
+            onChange={(e) => setOpenchat(e.target.value)}
+            className="h-12 w-full rounded-md border border-[#E5E7EB] px-4 text-sm outline-none focus:ring-2 focus:ring-[#3152B7]"
+            placeholder="링크"
+          />
+        </div>
+
         <button
-          disabled={!isFormComplete}
-          className={`w-full py-4 mt-6 rounded-md font-medium transition-colors ${
-            isFormComplete
-              ? "bg-[#00207F] text-white cursor-pointer"
-              : "bg-gray-200 text-gray-500 cursor-not-allowed"
-          }`}
+          type="submit"                               // ⬅ submit 로 처리
+          disabled={!canStart}
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium transition
+            ${canStart ? "bg-[#3152B7] text-white hover:bg-[#2643a0]" : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"}`}
         >
           시작하기
         </button>
-      </div>
-    </div>
+      </form>
+    </AuthShell>
+
   );
 }
