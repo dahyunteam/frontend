@@ -3,8 +3,39 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Question() {
     const [selectedOption, setSelectedOption] = useState(null); // 선택한 버튼 상태
+    const [loading, setLoading] = useState(false);
     const options = ["문과", "이과", "예체능"];
     const navigate = useNavigate();
+
+    const handleNext = async () => {
+    if (!selectedOption) return;
+
+    setLoading(true);
+    
+    // 선택한 옵션의 인덱스를 answerId로 사용
+    const answerId = options.indexOf(selectedOption) + 1;
+
+    try {
+      const response = await fetch("http://localhost:8080/question/1", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answerId })
+      });
+
+      if (!response.ok) throw new Error("API 요청 실패");
+
+      const data = await response.json();
+      console.log("API 응답:", data);
+
+      // 성공하면 다음 질문 페이지로 이동
+      navigate("/question/2");
+    } catch (error) {
+      console.error(error);
+      alert("답변 저장에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
     return (
         <div className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
@@ -125,8 +156,8 @@ export default function Question() {
             ))}
           </div>
           <button
-            onClick={() => navigate("/question/2")}
-            disabled={!selectedOption}
+            onClick={handleNext}
+            disabled={!selectedOption || loading}
             className={`
               appearance-none mt-8 w-full h-[56px] flex items-center justify-center gap-[10px] px-[18px] py-4 rounded-lg font-semibold
               ${selectedOption 
@@ -135,7 +166,7 @@ export default function Question() {
               }
             `}
           >
-            다음
+            {loading ? "저장 중..." : "다음"}
           </button>
         </section>
       </main>

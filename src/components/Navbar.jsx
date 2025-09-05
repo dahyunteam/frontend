@@ -28,6 +28,7 @@ export default function Navbar() {
   };
 
   return (
+
     <>
       <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
         <div className="px-4 md:px-6">
