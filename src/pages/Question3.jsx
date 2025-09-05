@@ -1,65 +1,65 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function Question() {
+export default function Question3() {
     const [selectedOption, setSelectedOption] = useState(null); // 선택한 버튼 상태
-    const options = ["문과", "이과", "예체능"];
+    const options = ["중학생", "고등학생"];
     const navigate = useNavigate();
 
     return (
-        <div id="root" className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
+        <div className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
 
-        {/* 메인 */}
-        <main className="flex flex-1">
-            {/* 왼쪽 질문 순서 */}
-            <aside className="w-[465px] h-[944px] shadow-[4px_4px_10px_rgba(0,0,0,0.15)] overflow-visible bg-white p-8 flex flex-col justify-around">
-                <div className="space-y-4">
-                    <p className='text-black text-[18px] font-semibold'>질문 순서</p>
-                <div className="space-y-3">
-                {/* Step 1 */}
-                <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#3152B7] rounded-lg shadow-sm bg-blue-50">
-                    <img
+      {/* 메인 */}
+      <main className="flex flex-1">
+        {/* 왼쪽 질문 순서 */}
+        <aside className="w-[465px] h-[944px] shadow-[4px_4px_10px_rgba(0,0,0,0.15)] overflow-visible bg-white p-8 flex flex-col justify-around">
+          <div className="space-y-4">
+            <p className='text-black text-[18px] font-semibold'>질문 순서</p>
+            <div className="space-y-3">
+              {/* Step 1 */}
+              <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#3152B7] rounded-lg shadow-sm bg-blue-50">
+                <img
                         src="/icon/circle-blue.svg"
                         alt="circle"
                         className="mt-1 h-[24px]"
                     />
                 <div>
-                    <p className="font-semibold text-lg text-[#191919]">나와 어울리는 분야는?</p>
-                    <p className="font-normal text-sm text-[#565656] text-center">나와 어울리는 분야를 선택해요</p>
+                  <p className="font-semibold text-lg text-[#191919]">나와 어울리는 분야는?</p>
+                  <p className="font-normal text-sm text-[#565656] text-center">나와 어울리는 분야를 선택해요</p>
                 </div>
               </div>
               {/* bar */}
               <img 
-                src="/icon/icon-bar-gray.svg"
-                className='-mt-12 -mb-12 ml-13 z-10 relative'
+                src="/icon/icon-bar.svg"
+                className='-mt-12 -mb-11 ml-13 z-10 relative'
               />
               {/* Step 2 */}
-              <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#DEDEDE] rounded-lg shadow-sm bg-white">
+              <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#3152B7] rounded-lg shadow-sm bg-blue-50">
                 <img
-                        src="/icon/circle-gray.svg"
+                        src="/icon/circle-blue.svg"
                         alt="circle"
                         className="mt-1 h-[24px]"
                     />
                 <div>
-                  <p className="font-semibold text-lg text-[#8C8C8C]">내가 좋아하는 과목은?</p>
-                  <p className="font-normal text-sm text-[#8C8C8C] text-center">과목 선택으로 더 구체화해요</p>
+                  <p className="font-semibold text-lg text-[#191919]">내가 좋아하는 과목은?</p>
+                  <p className="font-normal text-sm text-[#565656] text-center">과목 선택으로 더 구체화해요</p>
                 </div>
               </div>
               {/* bar */}
               <img 
-                src="/icon/icon-bar-gray.svg"
-                className='-mt-12 -mb-12 ml-13 z-10 relative'
+                src="/icon/icon-bar.svg"
+                className='-mt-12 -mb-11 ml-13 z-10 relative'
               />
               {/* Step 3 */}
-              <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#DEDEDE] rounded-lg shadow-sm bg-white">
+              <div className="flex items-center py-6 px-10 gap-8 space-x-3 p-4 border border-[#3152B7] rounded-lg shadow-sm bg-blue-50">
                 <img
-                        src="/icon/circle-gray.svg"
+                        src="/icon/circle-blue.svg"
                         alt="circle"
                         className="mt-1 h-[24px]"
                     />
                 <div>
-                  <p className="font-semibold text-lg text-[#8C8C8C]">나의 성장기</p>
-                  <p className="font-normal text-sm text-[#8C8C8C] text-center">현재 나는 어떤 상태인지 확인해요</p>
+                  <p className="font-semibold text-lg text-[#191919]">나의 성장기</p>
+                  <p className="font-normal text-sm text-[#565656] text-center">현재 나는 어떤 상태인지 확인해요</p>
                 </div>
               </div>
               {/* bar */}
@@ -105,7 +105,7 @@ export default function Question() {
 
         {/* 오른쪽 질문 박스 */}
         <section className="flex-1 p-10 bg-[#F7FAFF]">
-          <h2 className="text-[24px] font-semibold mb-2 text-[#191919]">Q1. 나와 어울리는 분야는?</h2>
+          <h2 className="text-[24px] font-semibold mb-2 text-[#191919]">Q3. 너는 중학생이야 고등학생이야?</h2>
           <p className="text-xs text-gray-500 mb-12 text-[#565656]">해당 질문에 대한 답변으로 앞으로의 질문과 분야가 달라져요</p>
           <div className="space-y-4">
             {options.map((option, idx) => (
@@ -125,7 +125,7 @@ export default function Question() {
             ))}
           </div>
           <button
-            onClick={() => navigate("/question/2")}
+          onClick={() => navigate("/question/4")}
             disabled={!selectedOption}
             className={`
               appearance-none mt-8 w-full h-[56px] flex items-center justify-center gap-[10px] px-[18px] py-4 rounded-lg font-semibold

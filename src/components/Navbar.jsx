@@ -1,7 +1,6 @@
-import React from "react";
 import profile from "../assets/profile.svg";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const LOGO_SRC = "/icon/메인로고.png";
