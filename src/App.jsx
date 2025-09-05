@@ -8,6 +8,7 @@ import TeacherSignup from "./pages/TeacherSignup";
 
 export default function App() {
   return (
+    <div className="w-[1440px] h-[1024px] mx-auto bg-slate-50 text-slate-900 overflow-hidden">
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -18,5 +19,6 @@ export default function App() {
         <Route path="/studentsignup" element={<StudentSignup />} />
       </Routes>
     </BrowserRouter>
+    </div>
   );
 }
