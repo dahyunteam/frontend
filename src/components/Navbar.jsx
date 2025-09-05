@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+
 const LOGO_SRC = "/icon/메인로고.png";
 
 const linkBase =
@@ -8,6 +9,8 @@ const linkBase =
 const linkActive = "text-slate-900 font-medium";
 
 export default function Navbar() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
       <div className="px-4 md:px-6">
@@ -52,9 +55,10 @@ export default function Navbar() {
                 <path d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
+
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }

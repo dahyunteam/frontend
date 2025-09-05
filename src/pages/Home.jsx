@@ -1,5 +1,7 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
+
 
 const LOGO_SRC = "/icon/메인로고.png";
 
@@ -26,15 +28,26 @@ export default function App() {
         <aside className="hidden lg:block fixed top-14 z-30 w-[360px] h-[calc(100vh-56px)]">
           <div className="h-full bg-white px-10 py-12 shadow-sm ring-1 ring-slate-200 overflow-auto">
             <div className="flex flex-col items-center text-center space-y-8">
-              <img src={LOGO_SRC} alt="서비스 로고" className="w-28 h-28 object-contain select-none" />
+              <img
+                src={LOGO_SRC}
+                alt="서비스 로고"
+                className="w-28 h-28 object-contain select-none"
+              />
               <p className="text-sm text-blue-700 font-medium leading-6">
-                내 성향대로, 내 진로대로!<br />맞춤형 진로 추천 플랫폼
+                내 성향대로, 내 진로대로!
+                <br />
+                맞춤형 진로 추천 플랫폼
               </p>
-              <h2 className="text-3xl font-extrabold tracking-tight">커비티아이</h2>
+              <h2 className="text-3xl font-extrabold tracking-tight">
+                커비티아이
+              </h2>
               <p className="text-sm leading-6 text-slate-600">
-                흥미와 성향 기반으로 딱 맞는<br />
-                진로를 추천받고,<br />
-                대학생 멘토들에게 바로 질문하며<br />
+                흥미와 성향 기반으로 딱 맞는
+                <br />
+                진로를 추천받고,
+                <br />
+                대학생 멘토들에게 바로 질문하며
+                <br />
                 미래를 준비할 수 있는 플랫폼
               </p>
               <Link
@@ -49,7 +62,6 @@ export default function App() {
 
         {/* 오른쪽 메인 */}
         <main className="w-full lg:ml-[180px] px-4 md:px-6 py-0">
-
           <div className="mx-auto max-w-5xl relative -mt-6">
             {/* 상단 타이틀/버튼 */}
             <div className="mb-4 flex items-center justify-between">
@@ -82,15 +94,26 @@ export default function App() {
         <aside className="lg:hidden px-4 md:px-6 mt-4">
           <div className="rounded-2xl bg-white px-8 py-10 shadow-sm ring-1 ring-slate-200">
             <div className="flex flex-col items-center text-center space-y-6">
-              <img src={LOGO_SRC} alt="서비스 로고" className="w-24 h-24 object-contain select-none" />
+              <img
+                src={LOGO_SRC}
+                alt="서비스 로고"
+                className="w-24 h-24 object-contain select-none"
+              />
               <p className="text-sm text-blue-700 font-medium leading-6">
-                내 성향대로, 내 진로대로!<br />맞춤형 진로 추천 플랫폼
+                내 성향대로, 내 진로대로!
+                <br />
+                맞춤형 진로 추천 플랫폼
               </p>
-              <h2 className="text-2xl font-extrabold tracking-tight">커비티아이</h2>
+              <h2 className="text-2xl font-extrabold tracking-tight">
+                커비티아이
+              </h2>
               <p className="text-sm leading-6 text-slate-600">
-                흥미와 성향 기반으로 딱 맞는<br />
-                진로를 추천받고,<br />
-                대학생 멘토들에게 바로 질문하며<br />
+                흥미와 성향 기반으로 딱 맞는
+                <br />
+                진로를 추천받고,
+                <br />
+                대학생 멘토들에게 바로 질문하며
+                <br />
                 미래를 준비할 수 있는 플랫폼
               </p>
               <button className="w-full rounded-xl bg-blue-700 px-6 py-4 text-white font-semibold shadow-sm hover:bg-blue-800">
@@ -111,14 +134,22 @@ function MentorCard({ name, dept }) {
     <div className="w-full rounded-xl bg-white p-6 shadow-md ring-1 ring-slate-200">
       <div className="flex items-center gap-3">
         <div className="grid place-items-center w-10 h-10 rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-200">
-          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            viewBox="0 0 24 24"
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" />
             <path d="M4 20a8 8 0 0 1 16 0" />
           </svg>
         </div>
         <div className="min-w-0">
           <p className="text-sm font-semibold leading-tight">{name}</p>
-          <p className="text-xs text-slate-500 truncate leading-tight">{dept}</p>
+          <p className="text-xs text-slate-500 truncate leading-tight">
+            {dept}
+          </p>
         </div>
       </div>
 
