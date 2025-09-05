@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const LOGO_SRC = "/icon/메인로고.png";
 
 const mentors = [
@@ -19,33 +20,10 @@ const qas = [
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* 헤더 */}
-      <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
-        <div className="w-full px-4 md:px-6">
-          <div className="flex h-14 items-center justify-between">
-            <nav className="flex items-center gap-8 text-sm">
-              <img src={LOGO_SRC} alt="서비스 로고" className="w-8 h-8 object-contain select-none" />
-              <span className="font-semibold">커비티아이</span>
-              <a className="text-slate-500 hover:text-slate-900" href="#">홈</a>
-              <a className="text-slate-500 hover:text-slate-900" href="#">멘토 리스트</a>
-              <a className="text-slate-500 hover:text-slate-900" href="#">채팅</a>
-            </nav>
-            <div className="flex items-center gap-5 text-sm">
-              <a className="text-slate-500 hover:text-slate-900" href="#">내 프로필</a>
-              <button aria-label="menu">
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* 레이아웃 */}
-      <div className="relative">
+      <div className="relative pt-14">
         {/* 왼쪽 고정 사이드(데스크톱) */}
-        <aside className="hidden lg:block fixed left-0 top-14 z-30 w-[360px] h-[calc(100vh-56px)]">
+        <aside className="hidden lg:block fixed top-14 z-30 w-[360px] h-[calc(100vh-56px)]">
           <div className="h-full bg-white px-10 py-12 shadow-sm ring-1 ring-slate-200 overflow-auto">
             <div className="flex flex-col items-center text-center space-y-8">
               <img src={LOGO_SRC} alt="서비스 로고" className="w-28 h-28 object-contain select-none" />
@@ -67,11 +45,9 @@ export default function App() {
         </aside>
 
         {/* 오른쪽 메인 */}
-        <main className="w-full lg:ml-[180px] px-4 md:px-6 py-8">
-          {/* 중앙 폭 제한: 큰 박스 없이 요소만 카드 */}
+        <main className="w-full lg:ml-[180px] px-4 md:px-6 py-0">
 
-
-          <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-5xl relative -mt-6">
             {/* 상단 타이틀/버튼 */}
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold">내가 선택한 선생님</h3>
