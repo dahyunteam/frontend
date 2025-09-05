@@ -2,9 +2,7 @@
 
 import React, { Suspense, lazy, useEffect } from "react";
 import {
-
   BrowserRouter,
-
   Routes,
   Route,
   Navigate,
@@ -29,20 +27,18 @@ const StudentSignup = lazy(() => import("./pages/StudentSignup"));
 const TeacherSignup = lazy(() => import("./pages/TeacherSignup"));
 
 // 회원가입 (풀스크린 유지 권장)
-import Signup from "./pages/Signup";
-import StudentSignup from "./pages/StudentSignup";
-import TeacherSignup from "./pages/TeacherSignup";
+
 import MyPageStud from "./Pages/MyPageStud";
 import MyPageUniv from "./pages/MyPageUniv";
 
 // 선생님 홈
 const TeacherHome = lazy(() => import("./pages/TeacherHome"));
 
-
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "auto" });  }, [pathname]);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname]);
   return null;
 }
 
@@ -74,9 +70,21 @@ export default function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route caseSensitive={false} path="/question" element={<Question />} />
-            <Route caseSensitive={false} path="/mentor-list" element={<MentorList />} />
-            <Route caseSensitive={false} path="/my-mentors" element={<SelectedMentors />} />
+            <Route
+              caseSensitive={false}
+              path="/question"
+              element={<Question />}
+            />
+            <Route
+              caseSensitive={false}
+              path="/mentor-list"
+              element={<MentorList />}
+            />
+            <Route
+              caseSensitive={false}
+              path="/my-mentors"
+              element={<SelectedMentors />}
+            />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/mypagestud" element={<MyPageStud />} />
             <Route path="/mypageuniv" element={<MyPageUniv />} />
@@ -87,7 +95,6 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-
     </BrowserRouter>
   );
 }
