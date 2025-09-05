@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+
+import React from "react";
+import { Link } from "react-router-dom";
+
 
 const LOGO_SRC = "/icon/메인로고.png";
 
@@ -47,9 +50,12 @@ export default function App() {
                 <br />
                 미래를 준비할 수 있는 플랫폼
               </p>
-              <button className="mt-2 w-full rounded-xl bg-blue-700 px-6 py-4 text-white font-semibold shadow-sm hover:bg-blue-800">
+              <Link
+                to="/question"
+                className="mt-2 block w-full rounded-xl bg-blue-700 px-6 py-4 text-center text-white font-semibold shadow-sm hover:bg-blue-800"
+              >
                 내 진로 찾기 시작하기
-              </button>
+              </Link>
             </div>
           </div>
         </aside>
