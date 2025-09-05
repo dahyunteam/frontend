@@ -103,5 +103,6 @@ export default function TeacherSignup() {
         </button>
       </form>
     </AuthShell>
+
   );
 }

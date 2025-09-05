@@ -1,7 +1,9 @@
 // src/App.jsx
 import React, { Suspense, lazy, useEffect } from "react";
 import {
+
   BrowserRouter,
+
   Routes,
   Route,
   Navigate,
@@ -74,6 +76,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+
     </BrowserRouter>
   );
 }
