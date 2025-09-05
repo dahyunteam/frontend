@@ -7,7 +7,7 @@ export default function Question() {
     const navigate = useNavigate();
 
     return (
-        <div id="root" className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
+        <div className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto"
 
         {/* 메인 */}
         <main className="flex flex-1">
