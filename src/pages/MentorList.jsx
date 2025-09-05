@@ -71,10 +71,11 @@ export default function MentorList() {
         </div>
 
         <div className="mt-6 rounded-lg border border-[#E5E7EB] bg-white">
-          <div className="grid grid-cols-[2fr_3fr_3fr_auto_auto] items-center gap-4 px-6 py-3 text-sm text-[#6B7280] border-b">
-            <span>멘토 이름</span>
+            <div className="grid grid-cols-[2fr_3fr_3fr_auto_auto] items-center gap-4
+            px-6 py-3 text-sm text-[#6B7280] border-b bg-[#f5f5f5]">
+            <span className="pl-4">멘토 이름</span>
             <span>학교</span>
-            <span>학과</span>
+            <span className="pl-0 text-left">학과</span>
           </div>
 
           {err && <div className="px-6 py-4 text-sm text-red-600">{err}</div>}
@@ -102,7 +103,7 @@ export default function MentorList() {
                   <span className="font-medium">{m.name}</span>
                 </div>
                 <span className="text-[#4B5563]">{m.school}</span>
-                <span className="text-[#4B5563]">{m.major}</span>
+                <span className="pl-18 text-[#4B5563]">{m.major}</span>
                 <div className="justify-self-end">
                   <button className="h-8 rounded-full border border-[#AEC2FF] px-4 text-[#3152B7] text-sm hover:bg-[#F3F6FF]">
                     상담하기
