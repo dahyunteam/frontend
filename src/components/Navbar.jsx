@@ -17,7 +17,7 @@ export default function Navbar() {
             <img src={LOGO_SRC} alt="서비스 로고" className="w-8 h-8 object-contain select-none" />
             <span className="font-semibold">커비티아이</span>
 
-            <NavLink to="/" className={({isActive}) => `${linkBase} ${isActive ? linkActive : ""}`} end>
+            <NavLink to="home" className={({isActive}) => `${linkBase} ${isActive ? linkActive : ""}`} end>
               홈
             </NavLink>
             <NavLink to="/mentor-list" className={({isActive}) => `${linkBase} ${isActive ? linkActive : ""}`}>

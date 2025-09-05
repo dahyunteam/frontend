@@ -11,29 +11,37 @@ export default function StudentSignup() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    if (!base || base.userType !== "menti") {
+    // 백엔드가 기대하는 타입은 MENTI/MENTO. base 검사만 하고 아니면 되돌림.
+    if (!base || (base.userType !== "menti" && base.userType !== "MENTI")) {
       nav("/signup", { replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const canStart = nick.trim() && age.trim();
+  // 숫자 나이 검증
+  const ageNum = Number(age.trim());
+  const isAgeValid = Number.isInteger(ageNum) && ageNum > 0 && ageNum < 120;
+
+  const canStart = !!base && nick.trim().length > 0 && isAgeValid;
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!canStart || !base) return;
 
+    const payload = {
+      userType: "MENTI",          // ✅ 대문자 (백엔드 Enum과 일치)
+      name: base.name,
+      account: base.account,      // ✅ account로 전송
+      password: base.password,
+      nickname: nick.trim(),
+      age: ageNum,                // ✅ 숫자로 전송
+    };
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userType: "menti",
-          name: base.name,
-          account: base.account,
-          password: base.password,
-          nickname: nick,
-          age: age,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -43,7 +51,7 @@ export default function StudentSignup() {
       }
 
       clearSignupBase();
-      nav("/home", { replace: true }); // 학생 → Home
+      nav("/home", { replace: true });
     } catch (e2) {
       console.error(e2);
       setErr("서버 오류가 발생했습니다.");
@@ -56,20 +64,41 @@ export default function StudentSignup() {
         <h3 className="text-[22px] font-semibold leading-7">
           {base?.name ?? ""}님<br />반갑습니다!
         </h3>
-        <p className="mt-2 text-sm text-[#6B7280]">우리 사이트는 별명으로 운영되고 익명 중심의 사이트입니다.</p>
+        <p className="mt-2 text-sm text-[#6B7280]">
+          우리 사이트는 별명으로 운영되고 익명 중심의 사이트입니다.
+        </p>
       </div>
-      
 
       <form className="space-y-5" onSubmit={onSubmit}>
         <div>
-          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">별명</label>
-          <input className="h-12 w-full rounded-md border px-4" value={nick} onChange={(e)=>setNick(e.target.value)} placeholder="별명" />
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">
+            별명
+          </label>
+          <input
+            className="h-12 w-full rounded-md border px-4"
+            value={nick}
+            onChange={(e) => setNick(e.target.value)}
+            placeholder="별명"
+          />
         </div>
+
         <div>
-          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">나이</label>
-          <input className="h-12 w-full rounded-md border px-4" value={age} onChange={(e)=>setAge(e.target.value)} placeholder="나이" />
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">
+            나이
+          </label>
+          <input
+            className="h-12 w-full rounded-md border px-4"
+            value={age}
+            onChange={(e) =>
+              setAge(e.target.value.replace(/[^\d]/g, "")) // 숫자만
+            }
+            inputMode="numeric"
+            placeholder="나이(숫자)"
+          />
+          {!isAgeValid && age.trim() !== "" && (
+            <p className="mt-1 text-xs text-red-600">유효한 나이를 입력하세요.</p>
+          )}
         </div>
-        
 
         {err && <p className="text-sm text-red-600">{err}</p>}
 
@@ -77,7 +106,9 @@ export default function StudentSignup() {
           type="submit"
           disabled={!canStart}
           className={`mt-4 h-12 w-full rounded-md text-sm font-medium ${
-            canStart ? "bg-[#3152B7] text-white" : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+            canStart
+              ? "bg-[#3152B7] text-white"
+              : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
           }`}
         >
           시작하기

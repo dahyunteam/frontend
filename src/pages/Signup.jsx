@@ -2,33 +2,36 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
-  const [personToggle, setPersonToggle] = useState(null);
+  const [personToggle, setPersonToggle] = useState(null); // "highschool" | "university"
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailValid, setEmailValid] = useState(null); // null | true | false
+
+  // ✅ account로 통일
+  const [account, setAccount] = useState("");
+  const [accountValid, setAccountValid] = useState(null); // null | true | false
+  const [isAccountChecked, setIsAccountChecked] = useState(false);
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
 
   const navigate = useNavigate();
 
-  // 이메일 형식 검사
-  const isEmailFormatValid = email.includes("@") && email.includes(".com");
+  // 계정(이메일) 형식 체크
+  const isAccountFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account);
 
-  // 중복 확인 (실제 API 호출 대신 임시 로직)
-  const handleEmailCheck = () => {
-    if (!isEmailFormatValid) {
-      setEmailValid(false);
-      setIsEmailChecked(true);
+  // 중복 확인 (임시 로직)
+  const handleAccountCheck = () => {
+    if (!isAccountFormatValid) {
+      setAccountValid(false);
+      setIsAccountChecked(true);
       return;
     }
-    // 서버에서 중복 검사한다고 가정
-    if (email === "test@example.com") {
-      setEmailValid(false); // 이미 존재하는 이메일
+    // 서버 중복 검사 가정
+    if (account === "test@example.com") {
+      setAccountValid(false);
     } else {
-      setEmailValid(true);
+      setAccountValid(true);
     }
-    setIsEmailChecked(true);
+    setIsAccountChecked(true);
   };
 
   const handleSignup = () => {
@@ -43,22 +46,20 @@ const SignupPage = () => {
   const isFormValid =
     personToggle &&
     name.trim() &&
-    email.trim() &&
-    isEmailFormatValid &&
-    isEmailChecked &&
-    emailValid &&
+    account.trim() &&
+    isAccountFormatValid &&
+    isAccountChecked &&
+    accountValid &&
     password &&
     confirmPassword &&
     password === confirmPassword;
 
   return (
     <div className="flex h-screen w-screen">
-     
-
       {/* 오른쪽 영역 */}
-      <div className="w-1/2 relative flex flex-col items-center justify-center bg-white">
+      <div className="w-1/2 relative flex flex-col items-center justify-center bg-white mx-auto">
         <div className="flex flex-col space-y-4 w-2/3">
-          {/* 대학생/고등학생 선택 */}
+          {/* 고등학생/대학생 선택 */}
           <div className="flex flex-row space-x-2">
             <button
               className={`flex-1 px-2 py-1 cursor-pointer text-sm rounded-lg border ${
@@ -90,34 +91,35 @@ const SignupPage = () => {
             onChange={(e) => setName(e.target.value)}
           />
 
-          {/* 이메일 */}
-          <span>아이디(이메일)</span>
+          {/* 아이디(account) */}
+          <span>아이디</span>
           <div className="flex space-x-2">
             <input
               className="border flex-1 px-2 py-1"
-              value={email}
+              value={account}
               onChange={(e) => {
-                setEmail(e.target.value);
-                setIsEmailChecked(false); // 새 입력 → 다시 체크 필요
+                setAccount(e.target.value);
+                setIsAccountChecked(false); // 새 입력 → 다시 체크 필요
+                setAccountValid(null);
               }}
             />
             <button
               type="button"
               className="px-2 py-1 bg-blue-500 text-white rounded"
-              onClick={handleEmailCheck}
+              onClick={handleAccountCheck}
             >
               중복 확인
             </button>
           </div>
 
-          {/* 이메일 중복 확인 결과 */}
-          {isEmailChecked && (
+          {/* 중복 확인 결과 */}
+          {isAccountChecked && (
             <span
               className={`text-sm ${
-                emailValid ? "text-green-600" : "text-red-600"
+                accountValid ? "text-green-600" : "text-red-600"
               }`}
             >
-              {emailValid ? "사용 가능" : "사용 불가능"}
+              {accountValid ? "사용 가능" : "사용 불가능"}
             </span>
           )}
 
