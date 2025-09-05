@@ -1,5 +1,7 @@
+
 import profile from "../assets/profile.svg";
 import { useNavigate } from "react-router-dom";
+
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -9,6 +11,7 @@ const linkBase = "text-slate-500 hover:text-slate-900 transition";
 const linkActive = "text-slate-900 font-medium";
 
 export default function Navbar() {
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -24,6 +27,7 @@ export default function Navbar() {
       navigate("/"); // 혹시 정보가 없으면 홈으로
     }
   };
+
 
   return (
     <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
@@ -63,11 +67,13 @@ export default function Navbar() {
                 `${linkBase} ${isActive ? linkActive : ""}`
               }
             >
+
               채팅
             </NavLink>
           </nav>
 
           <div className="flex items-center gap-5 text-sm">
+
             <NavLink
               to="/me"
               className={({ isActive }) =>
@@ -84,6 +90,7 @@ export default function Navbar() {
                 stroke="currentColor"
                 strokeWidth="2"
               >
+
                 <path d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
