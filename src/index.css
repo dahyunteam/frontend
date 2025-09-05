@@ -5,3 +5,7 @@
   --brand-dark: #3152B7;  /* hover */
   --brand-ghost: #F7FAFF; /* 연한 배경(필요시) */
 }
+
+body {
+  font-family: 'Pretendard', 'sans-serif';
+}
