@@ -69,7 +69,9 @@ export default function App() {
         {/* 오른쪽 메인 */}
         <main className="w-full lg:ml-[360px] px-4 md:px-6 py-8">
           {/* 중앙 폭 제한: 큰 박스 없이 요소만 카드 */}
-          <div className="mx-auto max-w-5xl lg:ml-[0px]">
+
+
+          <div className="mx-auto max-w-5xl">
             {/* 상단 타이틀/버튼 */}
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold">내가 선택한 선생님</h3>
