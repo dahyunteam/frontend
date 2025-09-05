@@ -1,7 +1,9 @@
 // src/App.jsx
 import React from "react";
 import {
+
   BrowserRouter,
+
   Routes,
   Route,
   Navigate,
@@ -47,15 +49,19 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
 
+
           <Route caseSensitive={false} path="/question" element={<Question />} />
           <Route caseSensitive={false} path="/mentor-list" element={<MentorList />} />
           <Route caseSensitive={false} path="/my-mentors" element={<SelectedMentors />} />
           <Route path="/chat" element={<ChatPage />} />
           {/* 필요 시: <Route path="/me" element={<Profile />} /> */}
+
         </Route>
 
         {/* -------- Fallback -------- */}
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
