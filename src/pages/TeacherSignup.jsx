@@ -1,33 +1,110 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthShell from "./_AuthShell";
+import { loadSignupBase, clearSignupBase } from "../utils/signupStorage";
 
-const TeacherSignupPage = () => {
+export default function TeacherSignup() {
+  const nav = useNavigate();
+  const base = loadSignupBase(); // { userType, name, account, password }
+
+  const [nick, setNick] = useState("");
+  const [univ, setUniv] = useState("");
+  const [major, setMajor] = useState("");
+  const [about, setAbout] = useState("");
+  const [openchat, setOpenchat] = useState("");
+  const [err, setErr] = useState("");
+
+  useEffect(() => {
+    if (!base || base.userType !== "mento") {
+      nav("/signup", { replace: true });
+    }
+  }, []);
+
+  const canStart = nick.trim() && univ.trim() && major.trim();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!canStart || !base) return;
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userType: "mento",
+          name: base.name,
+          account: base.account,
+          password: base.password,
+          nickname: nick,
+          schoolName: univ,
+          major: major,
+          openChatUrl: openchat,
+          description: about,
+        }),
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        setErr(`회원가입 실패: ${t}`);
+        return;
+      }
+
+      clearSignupBase();
+      nav("/teacher-home", { replace: true }); // 선생님 → TeacherHome
+    } catch (e2) {
+      console.error(e2);
+      setErr("서버 오류가 발생했습니다.");
+    }
+  };
+
   return (
-    <div className="flex h-screen w-screen">
-      {/* 왼쪽 영역 */}
-      <div className="w-1/2 flex items-center justify-center bg-green-600 text-white">
-        <h1 className="text-5xl font-bold">서비스 이름</h1>
+    <AuthShell>
+      <div className="mb-8">
+        <h3 className="text-[22px] font-semibold leading-7">
+          {base?.name ?? ""}님,<br />반갑습니다!
+        </h3>
+        <p className="mt-2 text-sm text-[#6B7280]">우리 사이트는 별명으로 운영됩니다.</p>
       </div>
+    
 
-      {/* 오른쪽 영역 */}
-      <div className="w-1/2 relative flex flex-col items-center justify-center bg-white">
-        <h1>고다현님</h1>
-        <h1>반갑습니다!</h1>
-        <span>우리 사이트는 별명으로 운영되며</span>
-        <span>학과 인증을 필수로 운영하고 있습니다</span>
-        {/* 로그인 버튼 영역 */}
-        <div className="flex flex-col space-y-4">
-          <span>별명</span>
-          <input className="border" />
-          <span>학교 이름</span>
-          <input className="border" />
-          <span>과</span>
-          <input className="border" />
-          <span>오픈 채팅방</span>
-          <input className="border" />
+      <form className="space-y-5" onSubmit={onSubmit}>
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">별명</label>
+          <input className="h-12 w-full rounded-md border px-4" value={nick} onChange={(e)=>setNick(e.target.value)} placeholder="별명" />
         </div>
-      </div>
-    </div>
-  );
-};
 
-export default TeacherSignupPage;
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">대학교</label>
+          <input className="h-12 w-full rounded-md border px-4" value={univ} onChange={(e)=>setUniv(e.target.value)} placeholder="대학교" />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">학과</label>
+          <input className="h-12 w-full rounded-md border px-4" value={major} onChange={(e)=>setMajor(e.target.value)} placeholder="학과" />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">한줄 소개</label>
+          <input className="h-12 w-full rounded-md border px-4" value={about} onChange={(e)=>setAbout(e.target.value)} placeholder="소개" />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-[12px] text-[#3152B7] font-semibold">오픈 채팅방 (선택)</label>
+          <input className="h-12 w-full rounded-md border px-4" value={openchat} onChange={(e)=>setOpenchat(e.target.value)} placeholder="링크" />
+        </div>
+
+        {err && <p className="text-sm text-red-600">{err}</p>}
+
+        <button
+          type="submit"
+          disabled={!canStart}
+          className={`mt-4 h-12 w-full rounded-md text-sm font-medium ${
+            canStart ? "bg-[#3152B7] text-white" : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed"
+          }`}
+        >
+          시작하기
+        </button>
+      </form>
+    </AuthShell>
+  );
+}

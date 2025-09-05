@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const LOGO_SRC = "/icon/메인로고.png";
+const LOGO_SRC = "/icon/logo.png";
 
 const mentors = [
   { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
@@ -28,19 +28,16 @@ export default function App() {
         <aside className="hidden lg:block fixed top-14 z-30 w-[360px] h-[calc(100vh-56px)]">
           <div className="h-full bg-white px-10 py-12 shadow-sm ring-1 ring-slate-200 overflow-auto">
             <div className="flex flex-col items-center text-center space-y-8">
-              <img
-                src={LOGO_SRC}
-                alt="서비스 로고"
-                className="w-28 h-28 object-contain select-none"
-              />
               <p className="text-sm text-blue-700 font-medium leading-6">
                 내 성향대로, 내 진로대로!
                 <br />
                 맞춤형 진로 추천 플랫폼
               </p>
-              <h2 className="text-3xl font-extrabold tracking-tight">
-                커비티아이
-              </h2>
+              <img
+                src={LOGO_SRC}
+                alt="서비스 로고"
+                className="w-44 h-44 object-contain select-none"
+              />
               <p className="text-sm leading-6 text-slate-600">
                 흥미와 성향 기반으로 딱 맞는
                 <br />

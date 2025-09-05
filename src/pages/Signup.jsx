@@ -53,10 +53,7 @@ const SignupPage = () => {
 
   return (
     <div className="flex h-screen w-screen">
-      {/* 왼쪽 영역 */}
-      <div className="w-1/2 flex items-center justify-center bg-green-600 text-white">
-        <h1 className="text-5xl font-bold">서비스 이름</h1>
-      </div>
+     
 
       {/* 오른쪽 영역 */}
       <div className="w-1/2 relative flex flex-col items-center justify-center bg-white">
