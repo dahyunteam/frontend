@@ -11,13 +11,26 @@ export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogoClick = () => navigate("/home");
+  // 로고 클릭 → 홈
+  const handleLogoClick = () => {
+    navigate("/home");
+    setSidebarOpen(false);
+  };
 
+  // 내 프로필 클릭 → 항상 학생 마이페이지로
   const handleProfileClick = () => {
-    const userType = localStorage.getItem("userType"); // "univ" | "stud"
-    if (userType === "univ") navigate("/mypageuniv");
-    else if (userType === "stud") navigate("/mypagestud");
-    else navigate("/home");
+    navigate("/mypagestud"); // ✅ 고정
+    setSidebarOpen(false);
+  };
+
+  // 표시용 데이터
+  const nickname = localStorage.getItem("nickname") || "별명";
+  const mentorCount = Number(localStorage.getItem("selectedMentorCount") || "0");
+
+  // “선택한 멘토” 페이지 이동
+  const goSelectedMentors = () => {
+    navigate("/my-mentors");
+    setSidebarOpen(false);
   };
 
   return (
@@ -32,8 +45,6 @@ export default function Navbar() {
                 className="w-[102px] h-[30px] object-contain select-none cursor-pointer"
                 onClick={handleLogoClick}
               />
-
-              {/* 라우팅은 절대경로 사용 */}
               <NavLink
                 to="/home"
                 className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
@@ -58,7 +69,7 @@ export default function Navbar() {
             <div className="flex items-center gap-5 text-sm">
               <button
                 onClick={handleProfileClick}
-                className={`${linkBase}`}
+                className={linkBase}
                 aria-label="내 프로필로 이동"
               >
                 내 프로필
@@ -85,7 +96,7 @@ export default function Navbar() {
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
-        {/* 닫기 버튼 */}
+        {/* 닫기 */}
         <button
           className="absolute top-4 left-4 text-xl font-bold"
           onClick={() => setSidebarOpen(false)}
@@ -97,46 +108,38 @@ export default function Navbar() {
         {/* 프로필 */}
         <div className="flex flex-col items-center mt-16 space-y-3 px-6">
           <div className="flex items-center justify-center rounded-full bg-white w-32 h-32">
-            <img
-              src={profile}
-              alt="프로필"
-              className="w-24 h-24 object-cover rounded-full"
-            />
+            <img src={profile} alt="프로필" className="w-24 h-24 object-cover rounded-full" />
           </div>
-          <p className="font-semibold mt-2 text-lg">별명 가나다</p>
+          <p className="font-semibold mt-2 text-lg">{nickname}</p>
 
-          {/* 선택한 멘토 요약 */}
-          <div className="w-full mt-12 flex justify-between items-center bg-white px-4 py-2 rounded-lg shadow-sm text-sm font-medium">
+          {/* 선택한 멘토 요약 (클릭 → /my-mentors) */}
+          <button
+            onClick={goSelectedMentors}
+            className="w-full mt-12 flex justify-between items-center bg-white px-4 py-2 rounded-lg shadow-sm text-sm font-medium cursor-pointer"
+          >
             <span>선택한 멘토</span>
-            <span>4</span>
-          </div>
+            <span>{mentorCount}</span>
+          </button>
 
-          {/* 멘토 리스트 (샘플) */}
+          {/* 샘플 멘토 리스트 */}
           <div className="w-full mt-6 flex flex-col gap-0">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
+            {Array.from({ length: mentorCount || 4 }).map((_, i) => (
+              <button
                 key={i}
-                className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow-sm"
+                onClick={goSelectedMentors}
+                className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow-sm text-left cursor-pointer"
               >
                 <div className="w-8 h-8 rounded-full bg-blue-50 grid place-items-center text-blue-700">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" />
                     <path d="M4 20a8 8 0 0 1 16 0" />
                   </svg>
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-sm">별명 가나다</p>
-                  <p className="text-xs text-slate-500 truncate">
-                    머머대학교 무슨무슨과
-                  </p>
+                  <p className="font-semibold text-sm">멘토 {i + 1}</p>
+                  <p className="text-xs text-slate-500 truncate">머머대학교 무슨무슨과</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
