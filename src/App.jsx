@@ -7,11 +7,13 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import StudentSignup from "./pages/StudentSignup";
 import TeacherSignup from "./pages/TeacherSignup";
+import Question from './pages/Question';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
