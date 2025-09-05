@@ -1,10 +1,47 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Question2() {
-    const [selectedOption, setSelectedOption] = useState(null); // 선택한 버튼 상태
+    const [selectedOption, setSelectedOption] = useState(null);
     const options = ["국어", "외국어", "통합사회", "통합과학"];
+    const [answers, setAnswers] = useState([]);
     const navigate = useNavigate();
+    const location = useLocation();
+    const prev1Id = location.state?.prev1Id || 1; // 첫 번째 질문 답변 id
+
+    useEffect(() => {
+    // 서버에서 두 번째 질문 답변 조회
+    const fetchAnswers = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/question/2", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prev1Id,
+            prev2Id: null,
+            prev3Id: null,
+            prev4Id: null
+          })
+        });
+
+        if (!response.ok) throw new Error("API 요청 실패");
+
+        const data = await response.json();
+        setAnswers(data.answers);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAnswers();
+  }, [prev1Id]);
+
+  const handleNext = () => {
+    if (!selectedOption) return;
+    const selectedAnswer = answers.find(a => a.answerContent === selectedOption);
+    navigate("/question/3", { state: { prev2Id: selectedAnswer.answerId } });
+  };
 
     return (
         <div className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
@@ -111,7 +148,7 @@ export default function Question2() {
             {options.map((option, idx) => (
               <button
                 key={idx}
-                onClick={() => setSelectedOption(option)}
+                onClick={() => setSelectedOption(option.answerContent)}
                 className={`
                   appearance-none w-full h-[56px] flex items-center gap-[10px] px-[18px] py-4 rounded-lg border font-semibold
                   ${selectedOption === option 
@@ -125,7 +162,7 @@ export default function Question2() {
             ))}
           </div>
           <button
-          onClick={() => navigate("/question/3")}
+          onClick={handleNext}
             disabled={!selectedOption}
             className={`
               appearance-none mt-8 w-full h-[56px] flex items-center justify-center gap-[10px] px-[18px] py-4 rounded-lg font-semibold
