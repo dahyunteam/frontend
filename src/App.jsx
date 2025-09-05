@@ -1,13 +1,6 @@
 // src/App.jsx
 import React from "react";
-import {
-
-  BrowserRouter,
-
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -27,6 +20,8 @@ import LoginTeacher from "./pages/LoginTeacher";
 import Signup from "./pages/Signup";
 import StudentSignup from "./pages/StudentSignup";
 import TeacherSignup from "./pages/TeacherSignup";
+import MyPageStud from "./Pages/MyPageStud";
+import MyPageUniv from "./pages/MyPageUniv";
 
 // 선생님 홈 (로그인 후 이동)
 import TeacherHome from "./pages/TeacherHome";
@@ -49,13 +44,25 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
 
-
-          <Route caseSensitive={false} path="/question" element={<Question />} />
-          <Route caseSensitive={false} path="/mentor-list" element={<MentorList />} />
-          <Route caseSensitive={false} path="/my-mentors" element={<SelectedMentors />} />
+          <Route
+            caseSensitive={false}
+            path="/question"
+            element={<Question />}
+          />
+          <Route
+            caseSensitive={false}
+            path="/mentor-list"
+            element={<MentorList />}
+          />
+          <Route
+            caseSensitive={false}
+            path="/my-mentors"
+            element={<SelectedMentors />}
+          />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/mypagestud" element={<MyPageStud />} />
+          <Route path="/mypageuniv" element={<MyPageUniv />} />
           {/* 필요 시: <Route path="/me" element={<Profile />} /> */}
-
         </Route>
 
         {/* -------- Fallback -------- */}
