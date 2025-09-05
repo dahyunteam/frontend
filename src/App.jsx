@@ -1,4 +1,5 @@
 // src/App.jsx
+
 import React, { Suspense, lazy, useEffect } from "react";
 import {
 
@@ -27,8 +28,16 @@ const SignupChoice = lazy(() => import("./pages/SignupChoice"));
 const StudentSignup = lazy(() => import("./pages/StudentSignup"));
 const TeacherSignup = lazy(() => import("./pages/TeacherSignup"));
 
+// 회원가입 (풀스크린 유지 권장)
+import Signup from "./pages/Signup";
+import StudentSignup from "./pages/StudentSignup";
+import TeacherSignup from "./pages/TeacherSignup";
+import MyPageStud from "./Pages/MyPageStud";
+import MyPageUniv from "./pages/MyPageUniv";
+
 // 선생님 홈
 const TeacherHome = lazy(() => import("./pages/TeacherHome"));
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -59,7 +68,6 @@ export default function App() {
           <Route path="/signup" element={<SignupChoice />} />
           <Route path="/studentsignup" element={<StudentSignup />} />
           <Route path="/teachersignup" element={<TeacherSignup />} />
-
           <Route path="/teacher-home" element={<TeacherHome />} />
 
           {/* 레이아웃 (Navbar 포함) */}
@@ -70,6 +78,9 @@ export default function App() {
             <Route caseSensitive={false} path="/mentor-list" element={<MentorList />} />
             <Route caseSensitive={false} path="/my-mentors" element={<SelectedMentors />} />
             <Route path="/chat" element={<ChatPage />} />
+            <Route path="/mypagestud" element={<MyPageStud />} />
+            <Route path="/mypageuniv" element={<MyPageUniv />} />
+            {/* 필요 시: <Route path="/me" element={<Profile />} /> */}
           </Route>
 
           {/* Fallback */}

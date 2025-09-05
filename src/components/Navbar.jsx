@@ -1,5 +1,6 @@
 import profile from "../assets/profile.svg";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/Logo.png";
 
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -34,11 +35,13 @@ export default function Navbar() {
           <div className="flex h-14 items-center justify-between">
             <nav className="flex items-center gap-8 text-sm">
               <img
-                src={LOGO_SRC}
+                src={Logo}
                 alt="서비스 로고"
-                className="w-8 h-8 object-contain select-none"
+                className="w-[102px] h-[30px] object-contain select-none cursor-pointer"
+                onClick={() => {
+                  navigate("./");
+                }}
               />
-              <span className="font-semibold">커비티아이</span>
 
               {/* 라우팅은 NavLink/Link + 절대경로 사용 */}
               <NavLink
