@@ -7,13 +7,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import StudentSignup from "./pages/StudentSignup";
 import TeacherSignup from "./pages/TeacherSignup";
-import Question from './pages/Question';
+import Question from "./pages/Question";
+import MyPageStud from "./pages/MyPageStud";
+import MyPageUniv from "./pages/MyPageUniv";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -21,6 +22,8 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/teachersignup" element={<TeacherSignup />} />
           <Route path="/studentsignup" element={<StudentSignup />} />
+          <Route path="/mypagestud" element={<MyPageStud />} />
+          <Route path="/mypageuniv" element={<MyPageUniv />} />
         </Route>
       </Routes>
     </BrowserRouter>

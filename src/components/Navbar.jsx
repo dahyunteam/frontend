@@ -1,11 +1,26 @@
 import React from "react";
 import profile from "../assets/profile.svg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LOGO_SRC = "/icon/메인로고.png";
 
 export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    // localStorage에서 회원 유형 가져오기
+    const userType = localStorage.getItem("userType"); // "univ" 또는 "stud"
+
+    if (userType === "univ") {
+      navigate("/mypageuniv");
+    } else if (userType === "stud") {
+      navigate("/mypagestud");
+    } else {
+      navigate("/"); // 혹시 정보가 없으면 홈으로
+    }
+  };
 
   return (
     <>
@@ -30,9 +45,13 @@ export default function Navbar() {
               </a>
             </nav>
             <div className="flex items-center gap-5 text-sm">
-              <a className="text-slate-500 hover:text-slate-900" href="#">
+              <button
+                onClick={handleProfileClick}
+                className="cursor-pointer text-slate-500 hover:text-slate-900"
+                href="#"
+              >
                 내 프로필
-              </a>
+              </button>
               <button aria-label="menu" onClick={() => setSidebarOpen(true)}>
                 <svg
                   viewBox="0 0 24 24"
