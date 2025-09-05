@@ -1,92 +1,91 @@
 import React from "react";
 
+const LOGO_SRC = "/icon/메인로고.png";
+
 const mentors = [
-  { name: "이름", dept: "머머대학교 무슨무슨과" },
-  { name: "이름", dept: "머머대학교 무슨무슨과" },
-  { name: "이름", dept: "머머대학교 무슨무슨과" },
+  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
+  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
+  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
+];
+
+const qas = [
+  "이 서비스는 공신력이 있는 서비스인가요?",
+  "이 서비스는 공신력이 있는 서비스인가요?",
+  "이 서비스는 공신력이 있는 서비스인가요?",
+  "이 서비스는 공신력이 있는 서비스인가요?",
+  "이 서비스는 공신력이 있는 서비스인가요?",
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-neutral-900">
-      {/* 헤더: 높이 56px (h-14) → 아래 계산에서 사용 */}
-      <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
-        <div className="w-full px-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* 헤더 */}
+      <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
+        <div className="w-full px-4 md:px-6">
           <div className="flex h-14 items-center justify-between">
             <nav className="flex items-center gap-8 text-sm">
-              <span className="font-semibold">서비스 네이밍</span>
-              <a className="hover:text-black text-neutral-500" href="#">홈</a>
-              <a className="hover:text-black text-neutral-500" href="#">멘토 리스트</a>
-              <a className="hover:text-black text-neutral-500" href="#">채팅</a>
+              <img src={LOGO_SRC} alt="서비스 로고" className="w-8 h-8 object-contain select-none" />
+              <span className="font-semibold">커비티아이</span>
+              <a className="text-slate-500 hover:text-slate-900" href="#">홈</a>
+              <a className="text-slate-500 hover:text-slate-900" href="#">멘토 리스트</a>
+              <a className="text-slate-500 hover:text-slate-900" href="#">채팅</a>
             </nav>
             <div className="flex items-center gap-5 text-sm">
-              <a className="hover:text-black text-neutral-500" href="#">내 프로필</a>
-              <button aria-label="menu" className="size-5 rounded-sm border border-neutral-300" />
+              <a className="text-slate-500 hover:text-slate-900" href="#">내 프로필</a>
+              <button aria-label="menu" className="p-1 rounded-md border">
+                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 본문 컨테이너 */}
-      <main className="w-full px-8 py-10">
-        {/* 좌 340px 고정 + 우측 유동 그리드 (데스크톱에서 적용) */}
-        <div className="grid gap-10 lg:[grid-template-columns:340px_1fr]">
-          
-          {/* ===== 왼쪽: 노란 패널 (세로 꽉) ===== */}
-          <aside>
-            <div
-              className={[
-                // 좌측을 화면 끝까지 붙이고 싶으면 다음 한 줄만 켜도 됨
-                // "-mx-8 px-8",
-                "bg-amber-200/70",
-                "rounded-md",
-                "p-8",
-                // 헤더 56px 제외하고 세로 꽉
-                "min-h-[calc(100vh-56px)]",
-                // 내용 간격
-                "flex flex-col"
-              ].join(" ")}
-            >
-              <h2 className="text-2xl font-semibold leading-snug">
-                나에게 맞는 진로, 학과가 무엇일까
-              </h2>
-
-              <ul className="mt-6 space-y-2 text-sm text-neutral-800">
-                <li>서비스 설명 설명설명설명</li>
-                <li>서비스 설명 설명설명설명</li>
-                <li>서비스 설명 설명설명설명</li>
-                <li>서비스 설명 설명설명설명</li>
-              </ul>
-
-              <button className="mt-8 w-full rounded-md border bg-white px-6 py-4 text-base font-medium hover:bg-neutral-50">
-                시작하기
+      {/* 본문: 부모는 패딩 없음(→ 화면 진짜 꽉) */}
+      <main className="w-full pt-8 pb-16">
+        {/* 좌 360px 고정 + 우 1fr */}
+        <div className="grid lg:[grid-template-columns:360px_1fr] gap-x-8">
+          {/* ===== 왼쪽 패널: 왼쪽만 패딩 주기 ===== */}
+          <aside className="pl-4 md:pl-6">
+            <div className="sticky lg:top-[56px] rounded-2xl bg-white px-10 py-12 shadow-sm ring-1 ring-slate-200 flex flex-col items-center text-center">
+              <img src={LOGO_SRC} alt="서비스 로고" className="w-28 h-28 object-contain select-none" />
+              <p className="mt-6 text-sm text-blue-700 font-medium">
+                내 성향대로, 내 진로대로!<br/>맞춤형 진로 추천 플랫폼
+              </p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight">커비티아이</h2>
+              <p className="mt-6 text-sm leading-6 text-slate-600">
+                흥미와 성향 기반으로 딱 맞는 <br/>
+                진로를 추천받고,<br/>
+                대학생 멘토들에게 바로 질문하며<br/>
+                미래를 준비할 수 있는 플랫폼
+              </p>
+              <button className="mt-10 w-full rounded-xl bg-blue-700 px-6 py-4 text-white font-semibold shadow-sm hover:bg-blue-800">
+                내 진로 찾기 시작하기
               </button>
             </div>
           </aside>
 
-          {/* ===== 오른쪽: 콘텐츠 ===== */}
-          <section className="min-w-0">
-            {/* 상단 타이틀/우측 버튼 라인 */}
-            <div className="mb-4 flex items-baseline justify-between">
-              <h3 className="text-xl font-semibold">내가 선택한 선생님</h3>
-              <button className="rounded-md bg-neutral-100 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-200">
+          {/* ===== 오른쪽: 우측 끝까지 풀 ===== */}
+          <section className="min-w-0 pr-4 md:pr-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">내가 선택한 선생님</h3>
+              <button className="rounded-xl bg-white px-4 py-2 text-sm text-slate-600 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
                 자세히보기
               </button>
             </div>
 
-            {/* 멘토 카드 3열 (브레이크포인트별 1/2/3열) */}
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
               {mentors.map((m, i) => (
                 <MentorCard key={i} {...m} />
               ))}
             </div>
 
-            {/* Q&A 큰 박스: 오른쪽 폭에 정확히 맞춤 */}
-            <div className="mt-10 rounded-md bg-neutral-200 p-8">
-              <h4 className="text-lg font-semibold">Q&amp;A</h4>
-              <p className="mt-6 text-lg">
-                질문
-              </p>
+            <div className="mt-10">
+              <h4 className="text-lg font-semibold mb-3">Q&amp;A</h4>
+              <div className="space-y-4">
+                {qas.map((t, i) => <QAItem key={i} text={t} />)}
+              </div>
             </div>
           </section>
         </div>
@@ -97,23 +96,39 @@ export default function Home() {
 
 function MentorCard({ name, dept }) {
   return (
-    <div className="rounded-md bg-neutral-200 p-8">
-      <div className="flex items-start gap-4">
-        <span className="mt-1 inline-block size-10 rounded-full border-2 border-neutral-300 bg-white" />
+    <div className="rounded-2xl bg-white p-8 shadow-md ring-1 ring-slate-200 h-full">
+      <div className="flex items-center gap-4">
+        <div className="grid place-items-center w-12 h-12 rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-200">
+          <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" />
+            <path d="M4 20a8 8 0 0 1 16 0" />
+          </svg>
+        </div>
         <div className="min-w-0">
-          <p className="text-base font-semibold">{name}</p>
-          <p className="text-sm text-neutral-700 truncate">{dept}</p>
+          <p className="font-semibold">{name}</p>
+          <p className="text-sm text-slate-500 truncate">{dept}</p>
         </div>
       </div>
 
-      <div className="mt-8 space-y-4">
-        <button className="w-full rounded-md bg-white py-3 text-sm font-medium hover:bg-neutral-50">
-          오픈채팅 바로가기
+      <div className="mt-6 flex gap-3">
+        <button className="flex-1 rounded-lg bg-blue-700 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800">
+          오픈채팅하기
         </button>
-        <button className="w-full rounded-md bg-white py-3 text-sm font-medium hover:bg-neutral-50">
-          채팅하기
+        <button className="flex-1 rounded-lg bg-white py-2.5 text-sm font-semibold text-blue-700 ring-1 ring-blue-200 hover:bg-blue-50">
+          상담하기
         </button>
       </div>
+    </div>
+  );
+}
+
+function QAItem({ text }) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+      <span className="grid place-items-center h-7 w-7 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+        Q.
+      </span>
+      <p className="text-sm">{text}</p>
     </div>
   );
 }
