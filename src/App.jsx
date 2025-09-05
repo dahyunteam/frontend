@@ -39,7 +39,7 @@ export default function App() {
           <Route path="/studentsignup" element={<StudentSignup />} />
 
           {/* 기능 페이지들 */}
-          <Route caseSensitive={false} path="/question" element={<Question />} />
+          <Route caseSensitive={false} path="/question/1" element={<Question />} />
           <Route path="/question/1" element={<Question />} />
           <Route path="/question/2" element={<Question2 />} />
           <Route path="/question/3" element={<Question3 />} />

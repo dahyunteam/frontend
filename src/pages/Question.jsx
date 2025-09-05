@@ -8,23 +8,6 @@ export default function Question() {
 
     return (
         <div id="root" className="w-[1440px] h-[1024px] bg-[#F7FAFF] text-neutral-900 mx-auto">
-            {/* 헤더: 높이 56px (h-14) → 아래 계산에서 사용 */}
-            <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
-                <div className="w-full px-8">
-                    <div className="flex h-14 items-center justify-between">
-                        <nav className="flex items-center gap-8 text-sm">
-                            <span className="font-semibold">서비스 네이밍</span>
-                            <a className="hover:text-black text-neutral-500" href="#">홈</a>
-                            <a className="hover:text-black text-neutral-500" href="#">멘토 리스트</a>
-                            <a className="hover:text-black text-neutral-500" href="#">채팅</a>
-                        </nav>
-                        <div className="flex items-center gap-5 text-sm">
-                            <a className="hover:text-black text-neutral-500" href="#">내 프로필</a>
-                            <button aria-label="menu" className="size-5 rounded-sm border border-neutral-300" />
-                        </div>
-                    </div>
-                </div>
-            </header>
 
         {/* 메인 */}
         <main className="flex flex-1">
