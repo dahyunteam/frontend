@@ -1,14 +1,12 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
-
 
 const LOGO_SRC = "/icon/logo.png";
 
 const mentors = [
-  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
-  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
-  { name: "별명 가나다", dept: "머머대학교 무슨무슨과" },
+  { name: "별명 고양이", dept: "이화여자대학교 통계학과" },
+  { name: "별명 가나디", dept: "홍익대학교 경영학과" },
+  { name: "별명 똑똑이", dept: "서강대학교 수학과" },
 ];
 
 const qas = [
