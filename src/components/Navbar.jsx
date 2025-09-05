@@ -1,33 +1,54 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const LOGO_SRC = "/icon/메인로고.png";
 
+const linkBase =
+  "text-slate-500 hover:text-slate-900 transition";
+const linkActive = "text-slate-900 font-medium";
+
 export default function Navbar() {
   return (
-    <header className="fixed top-0 left-1/2  -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
+    <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[1440px] z-50 border-b bg-white/80 backdrop-blur">
       <div className="px-4 md:px-6">
         <div className="flex h-14 items-center justify-between">
           <nav className="flex items-center gap-8 text-sm">
-            <img
-              src={LOGO_SRC}
-              alt="서비스 로고"
-              className="w-8 h-8 object-contain select-none"
-            />
+            <img src={LOGO_SRC} alt="서비스 로고" className="w-8 h-8 object-contain select-none" />
             <span className="font-semibold">커비티아이</span>
-            <a className="text-slate-500 hover:text-slate-900" href="#">홈</a>
-            <a className="text-slate-500 hover:text-slate-900" href="#">멘토 리스트</a>
-            <a className="text-slate-500 hover:text-slate-900" href="#">채팅</a>
+
+            {/* 라우팅은 NavLink/Link + 절대경로 사용 */}
+            <NavLink
+              to="/"
+              className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
+              end
+            >
+              홈
+            </NavLink>
+
+            <NavLink
+              to="/mentor-list"
+              className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
+            >
+              멘토 리스트
+            </NavLink>
+
+            <NavLink
+              to="/chat"
+              className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
+            >
+              채팅
+            </NavLink>
           </nav>
+
           <div className="flex items-center gap-5 text-sm">
-            <a className="text-slate-500 hover:text-slate-900" href="#">내 프로필</a>
+            <NavLink
+              to="/me"
+              className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}
+            >
+              내 프로필
+            </NavLink>
             <button aria-label="menu">
-              <svg
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
