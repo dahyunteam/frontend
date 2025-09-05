@@ -16,6 +16,7 @@ import TeacherSignup from "./pages/TeacherSignup";
 import Question from "./pages/Question";
 import MentorList from "./pages/MentorList";   
 import SelectedMentors from "./pages/SelectedMentors";
+import ChatPage from "./pages/ChatPage";
 // import Chat from "./pages/Chat";            // 필요 시
 // import Profile from "./pages/Profile";      // 필요 시
 
@@ -38,7 +39,7 @@ export default function App() {
           <Route caseSensitive={false} path="/question" element={<Question />} />
           <Route caseSensitive={false} path="/mentor-list" element={<MentorList />} />
           <Route caseSensitive={false} path="/my-mentors" element={<SelectedMentors />} />
-          {/* <Route path="/chat" element={<Chat />} /> */}
+          <Route path="/chat" element={<ChatPage />} /> 
           {/* <Route path="/me" element={<Profile />} /> */}
         </Route>
 
