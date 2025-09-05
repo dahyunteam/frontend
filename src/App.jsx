@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import StudentSignup from "./pages/StudentSignup";
 import TeacherSignup from "./pages/TeacherSignup";
+import Question from './pages/Question';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/teachersignup" element={<TeacherSignup />} />
         <Route path="/studentsignup" element={<StudentSignup />} />
+        <Route path="/question" element={<Question />} />
       </Routes>
     </BrowserRouter>
     </div>
